@@ -1,0 +1,38 @@
+{
+  "name": "u8g2-js",
+  "version": "1.0.0",
+  "description": "U8G2 monochrome graphics library ported to pure JavaScript for browser simulation. Pixel-faithful to the original C library.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src/",
+    "tools/",
+    "demo/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "build:demo": "node tools/build-demo.js",
+    "check:demo": "node tools/check-demo.js",
+    "cverify": "bash tools/cverify/build.sh"
+  },
+  "keywords": [
+    "u8g2",
+    "oled",
+    "lcd",
+    "e-paper",
+    "embedded",
+    "graphics",
+    "simulator",
+    "monochrome"
+  ],
+  "author": "olikraus (original C library); ported for browser simulation",
+  "license": "BSD-2-Clause",
+  "engines": {
+    "node": ">=18"
+  }
+}

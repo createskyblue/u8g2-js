@@ -1,0 +1,7 @@
+node_modules/
+
+# build intermediates
+tools/fontgen/out/
+tools/cverify/*.exe
+tools/cverify/c_*.bin
+tools/cverify/*.o

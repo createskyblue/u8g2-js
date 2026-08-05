@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>u8g2-js · U8G2 Browser Simulator</title>
+<style>
+  :root {
+    --bg: #171a21; --panel: #1f2430; --panel2: #262c3a; --text: #d6dbe4;
+    --muted: #7a8499; --accent: #4f8cff; --ok: #3fb950; --err: #f85149;
+    --line: #2e3646;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--bg); color: var(--text);
+    font: 13px/1.5 system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+    display: flex; flex-direction: column;
+  }
+  header {
+    padding: 10px 16px; border-bottom: 1px solid var(--line);
+    display: flex; align-items: baseline; gap: 16px;
+  }
+  header h1 { font-size: 15px; margin: 0; }
+  header .sub { color: var(--muted); font-size: 12px; }
+  #statusInfo { color: var(--muted); font-size: 12px; margin-left: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .main { flex: 1; display: flex; min-height: 0; }
+  .stage { flex: 1; display: flex; align-items: center; justify-content: center; overflow: auto; padding: 12px; }
+  canvas { image-rendering: pixelated; box-shadow: 0 6px 30px rgba(0,0,0,.5); border-radius: 6px; }
+
+  .sidebar {
+    width: 300px; background: var(--panel); border-left: 1px solid var(--line);
+    padding: 14px; overflow-y: auto;
+  }
+  .sidebar h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin: 14px 0 6px; }
+  .sidebar h2:first-child { margin-top: 0; }
+  .row { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+  .row label { width: 76px; color: var(--muted); flex-shrink: 0; }
+  select, input[type=number], input[type=text] {
+    background: var(--panel2); color: var(--text); border: 1px solid var(--line);
+    border-radius: 4px; padding: 4px 6px; flex: 1; font-size: 12px;
+  }
+  button {
+    background: var(--panel2); color: var(--text); border: 1px solid var(--line);
+    border-radius: 4px; padding: 5px 10px; cursor: pointer; font-size: 12px;
+  }
+  button:hover { border-color: var(--accent); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .custom { display: none; }
+
+  .editor-wrap { border-top: 1px solid var(--line); background: var(--panel); display: flex; flex-direction: column; height: 230px; }
+  .editor-bar { padding: 8px 12px; display: flex; gap: 8px; align-items: center; }
+  .editor-bar .hint { color: var(--muted); font-size: 11px; flex: 1; }
+  #code {
+    flex: 1; background: #10131a; color: #9fd0ff; border: none; outline: none;
+    font: 12px/1.5 Consolas, "Cascadia Code", monospace; padding: 10px 12px; resize: none;
+  }
+  .status { padding: 6px 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; display: flex; gap: 12px; }
+  #statusMsg { color: var(--ok); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>u8g2-js</h1>
+  <span class="sub">U8G2 纯 JS 移植 · 浏览器像素级仿真</span>
+  <span id="statusInfo"></span>
+</header>
+
+<div class="main">
+  <div class="stage">
+    <canvas id="canvas"></canvas>
+  </div>
+
+  <div class="sidebar">
+    <h2>显示设备</h2>
+    <div class="row"><label>型号</label><select id="displaySel"></select></div>
+    <div class="row custom" id="customSize"><label>宽×高</label>
+      <input type="number" id="customW" value="250" min="1" max="512">×
+      <input type="number" id="customH" value="122" min="1" max="512">
+    </div>
+    <div class="row"><label>旋转</label><select id="rotSel">
+      <option value="0">R0 · 0°</option><option value="1">R1 · 90°</option>
+      <option value="2">R2 · 180°</option><option value="3">R3 · 270°</option>
+    </select></div>
+    <div class="row"><label>缩放</label><select id="zoomSel">
+      <option>2</option><option selected>4</option><option>6</option><option>8</option><option>12</option>
+    </select></div>
+    <div class="row"><label></label><label style="color:var(--muted)"><input type="checkbox" id="gridChk"> 像素网格</label></div>
+
+    <h2>字体（运行时加载）</h2>
+    <div class="row"><label>字体</label><select id="fontSel"></select></div>
+    <div class="row"><label>载入 .bin</label><input type="file" id="fontFile" accept=".bin,.js"></div>
+    <div class="row"><label>粘贴 base64</label><input type="text" id="fontBase64" placeholder="U8g2Font 的 base64 数据…"></div>
+
+    <h2>运行</h2>
+    <div class="row" style="justify-content:space-between">
+      <button class="primary" id="runBtn">▶ 运行</button>
+      <button id="animBtn">▶ 动画</button>
+      <button id="clearBtn">清屏</button>
+      <button id="demoBtn">示例</button>
+    </div>
+  </div>
+</div>
+
+<div class="editor-wrap">
+  <div class="editor-bar">
+    <span style="color:var(--muted)">代码</span>
+    <span class="hint">可用变量：<code>u8g2</code>（主对象）、<code>$t</code>（秒）、<code>state</code>（帧间持久）</span>
+  </div>
+  <textarea id="code" spellcheck="false"></textarea>
+  <div class="status"><span id="statusMsg">ready</span></div>
+</div>
+
+<script type="module" src="demo.js"></script>
+</body>
+</html>
