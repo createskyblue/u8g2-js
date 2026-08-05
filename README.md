@@ -16,6 +16,18 @@ hardware. Built for AI-generated code + in-browser simulation before embedded de
 - **API-compatible**: Arduino `U8g2lib`-style camelCase as the primary API, plus C-style
   snake_case / `u8g2_*` aliases so code moves to real hardware unchanged.
 
+## Live demo
+
+A 212×102 monochrome e-paper sensor dashboard (CO₂ / PM2.5 / temperature-humidity trends) built
+on u8g2-js — a pixel-faithful browser simulation of a real e-paper panel:
+
+![u8g2-js live demo — 212x102 e-paper CO2 trend dashboard](docs/co2-mode.jpg)
+
+**Live demo:** [createskyblue.github.io/epaper-sensor-trend-demo](https://createskyblue.github.io/epaper-sensor-trend-demo/) · **Source:** [github.com/createskyblue/epaper-sensor-trend-demo](https://github.com/createskyblue/epaper-sensor-trend-demo)
+
+The demo pulls `u8g2-js` in as a git submodule, so it runs the exact same rendering engine
+that would run on the device.
+
 ## Upstream base commit
 
 This port is validated against the following **U8G2 upstream master** commit:
@@ -120,7 +132,6 @@ node tools/convert-fonts.js tools/fontgen/out/cn16/code/chinese_full.c -o demo/f
 
 The font generator (otf2bdf + bdfconv + Chinese extraction; this project's fonts are made with it):
 [Easy-u8g2-font-generate-tools](https://github.com/createskyblue/Easy-u8g2-font-generate-tools)
-(Gitee mirror: `https://gitee.com/createskyblue/Easy-u8g2-font-generate-tools`)
 
 ## Fonts: runtime loading
 

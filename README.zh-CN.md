@@ -12,6 +12,17 @@
   支持任意 U8G2 字体（含 `bdfconv` 生成的中文字体）。
 - **API 兼容**：Arduino `U8g2lib` 风格 camelCase 为主，同时提供 C 风格 snake_case / `u8g2_*` 别名。
 
+## 在线演示
+
+一个 212×102 单色墨水屏传感器仪表盘（CO₂ / PM2.5 / 温湿度趋势），基于 u8g2-js 构建——
+在浏览器里对真实墨水屏做像素级仿真：
+
+![u8g2-js 在线演示 —— 212x102 墨水屏 CO2 趋势界面](docs/co2-mode.jpg)
+
+**在线演示：** [createskyblue.github.io/epaper-sensor-trend-demo](https://createskyblue.github.io/epaper-sensor-trend-demo/) · **源码：** [github.com/createskyblue/epaper-sensor-trend-demo](https://github.com/createskyblue/epaper-sensor-trend-demo)
+
+该演示把 `u8g2-js` 作为 git 子模块引入，跑的是和真机完全一致的同一套渲染引擎。
+
 ## 基于的上游版本
 
 本移植对照 **U8G2 上游 master 分支**的基准提交：
@@ -111,7 +122,6 @@ node tools/convert-fonts.js tools/fontgen/out/cn16/code/chinese_full.c -o demo/f
 
 字库生成工具（otf2bdf + bdfconv + 中文提取，本项目字体由它生成）：
 [Easy-u8g2-font-generate-tools](https://github.com/createskyblue/Easy-u8g2-font-generate-tools)
-（Gitee 镜像：`https://gitee.com/createskyblue/Easy-u8g2-font-generate-tools`）
 
 ## 字体：运行时动态加载
 
