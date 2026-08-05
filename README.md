@@ -88,9 +88,9 @@ python tools/fontgen/gen_full.py    # 调 Python_u8g2_Fonts_Tools 的 otf2bdf + 
 node tools/convert-fonts.js tools/fontgen/out/cn16/code/chinese_full.c -o demo/fonts --format bin,js
 ```
 
-> ⚠️ 生成全量字库需要**已打补丁的 bdfconv**：原版在约 2 万 Unicode 字形时断言失败。
-> 补丁（Unicode 查找表长度 +1、哨兵循环填充）已打进字库生成工具的 `bdfconv.exe`，
-> 生成结果经原版 C 库逐字节验证一致。
+> ⚠️ 生成全量字库的 bdfconv 注意：字库工具**旧版捆绑的 bdfconv.exe**（per-entry=100）在约
+> 2 万 Unicode 字形时会断言失败；已把工具的 `bdfconv.exe` 换成 **olikraus/u8g2 当前源码的构建**
+> （per-entry=101，无此问题）。生成结果经原版 C 库逐字节验证一致。
 
 字库生成工具（otf2bdf + bdfconv + 中文提取，本项目字体由它生成）：
 [Easy-u8g2-font-generate-tools](https://github.com/createskyblue/Easy-u8g2-font-generate-tools)

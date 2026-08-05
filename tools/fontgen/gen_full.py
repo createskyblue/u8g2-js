@@ -9,9 +9,9 @@ gen_full.py — 生成"全量中文"U8G2 字库（12 / 16 / 24 px）。
   - CJK 标点 U+3000-303F、CJK 扩展A U+3400-4DBF、CJK 统一汉字 U+4E00-9FFF（20902）
   - CJK 兼容形式 U+FE30-FE4F、全角形式 U+FF00-FFEF
 
-依赖：Python_u8g2_Fonts_Tools 的 otf2bdf.exe 与 **已打补丁的 bdfconv.exe**。
-补丁修复了原版 bdfconv 在超过约 2 万 Unicode 字形时"Unicode lookup table"
-断言失败的问题（见该工具的 git 提交记录），已推送至 gitee/github 远程。
+依赖：Python_u8g2_Fonts_Tools 的 otf2bdf.exe 与 bdfconv.exe。
+注意：bdfconv.exe 须为 **olikraus/u8g2 当前源码的构建**（per-entry=101）——
+旧版捆绑二进制（per-entry=100）在约 2 万 Unicode 字形时会断言失败。
 
 用法：
     python gen_full.py            # 生成 out/cn{12,16,24}/code/chinese_full.c
