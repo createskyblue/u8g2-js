@@ -10,6 +10,21 @@
   支持任意 U8G2 字体（含 `bdfconv` 生成的中文字体）。
 - **API 兼容**：Arduino `U8g2lib` 风格 camelCase 为主，同时提供 C 风格 snake_case / `u8g2_*` 别名。
 
+## 基于的上游版本
+
+本移植对照 **U8G2 上游 master 分支**的基准提交：
+
+```
+commit ab9e48b2228351e9476682a70b7f3ee4909cd585
+Date:   2026-06-27 16:10:31 +0200
+Subject: Merge pull request #2786 from iggymayer/fix-flipmode-ssd1362z-OEL1M0033WE
+```
+
+原版 C 库已浅克隆到本仓库旁边的 `u8g2/` 目录（仅此提交），
+`tools/cverify/build.sh` 的**逐字节交叉验证正是针对这一版 C 库**进行的。
+要升级基准版本：重新 `git clone https://github.com/olikraus/u8g2.git` 到最新 master，
+并重跑 `bash tools/cverify/build.sh` 确认一致性后即可。
+
 ## 快速开始
 
 ```js
