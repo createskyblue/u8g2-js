@@ -1,0 +1,9 @@
+/* u8g2 official font: u8g2_font_nokiafc22_tu (618 bytes, 64 glyphs)
+ * Converted verbatim from u8g2_font_nokiafc22_tu.c; byte-for-byte identical to the device build.
+ * Usage:
+ *   import b64 from 'u8g2-js/fonts/u8g2_font_nokiafc22_tu.js';
+ *   const font = U8g2Font.fromBase64(b64);   // or U8g2Font.register('u8g2_font_nokiafc22_tu', font)
+ */
+const u8g2_font_nokiafc22_tu = "QAACAwMEAQQFBwgA/wf/B/8BLQAAAk4gBYA4ASEHujg5RgEiB5NNiaQAIwu9aEsdU+qYUgAkDMVnS1oRSUVmFAElD754ESM1FEMyFEOqUAAmC754GyVxpKZqFScFkS0RKAnDR40inXEAKQnDR4lDSSsJKgu9aE1F1mQlQwArC61pjaGwjKEQACwGmjejAC0FjFshLgWSOCEvCrtITUmRFIYAMAm9aJskXtIEMQe7SKv0ADILvWihIVmaZLkAMwu9aKEhWZoh2QI0Cb1oF6dovBU1C71ooWKIhmTZAjYLvWibZEpiSRMANwq9aKlFWZSVADgMvWibJEqaJEqaADkLvWibJJZESxMAOgaqOCEJOweyN6EpADwJvFgPJbU6AD0HnFmhIQI+CbxYibWUMQA/C71ooSFRLSNFAEALvnejxGM6aJACQQq9aJsk1iFRAkIKvWihJEtiWQBDCL1os3VDBEQJvWihJF4WAEUIvWi5KVldRgm9aLkpWRsARwm9aJtkFUsiSAm9aJGoQ+ISSQW6OHlKB7xY1bMCSwu+eBEpiZxJSSlMB7xYEfUkTQy/iInBuTqqiKYFTgu+eInJ6phKOgBPCb54o0SeEgVQCr1ooSSWJcsAUQrGd6NEXhMNClIKvWihJJYlRQpTCLxYK2VlBVQOvngxZUiGZEiGZEgEVQm9aJH4kiYAVgu+eBGZEknLkAhXDL+IkVnRIZWlJAFYC754EUmJlimRFFkOvngRSYmWIRmSIREAWgm9aKnFaSkXWwfDR6n0GlwJu0gJQzEUE10Hw0eZ9CpeB5tMi6gAXwWOaDEAAAAE//8A";
+export { u8g2_font_nokiafc22_tu };
+export default u8g2_font_nokiafc22_tu;

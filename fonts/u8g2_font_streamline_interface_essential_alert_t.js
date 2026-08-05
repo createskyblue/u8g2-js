@@ -1,0 +1,9 @@
+/* u8g2 official font: u8g2_font_streamline_interface_essential_alert_t (404 bytes, 6 glyphs)
+ * Converted verbatim from u8g2_font_streamline_interface_essential_alert_t.c; byte-for-byte identical to the device build.
+ * Usage:
+ *   import b64 from 'u8g2-js/fonts/u8g2_font_streamline_interface_essential_alert_t.js';
+ *   const font = U8g2Font.fromBase64(b64);   // or U8g2Font.register('u8g2_font_streamline_interface_essential_alert_t', font)
+ */
+const u8g2_font_streamline_interface_essential_alert_t = "BgADAgUFAwIGFRUAABUAFQAAAAAAAXgwRbXSWsMHLScpOTKEiixG1hzRxBwRxVzVcinTYi3TUjHTQjXTMjmTMh2JlEwatESJpCGqaNoa2TGLNFyHnJbktGz4IAExPrXSmjo9h4Y4x8Mcj3UwB9ccM4ViHg1RHYqzHEqzHEyVHMyRHMyRHMyRHMxzOM2GWxhFg1RN11yHdGw4AzI+tdJaO7jVoSzJcjCTwkGMlEzVklpYS3Mwj7JS3JoX4zlMwkFKwngOc0qaw6U8ynMwh8I6tu5QNmh5DmcAM0K10lo6rOW0JErXSAk1MYnzHMyhHMuhHMrBHMnBHMnBHMnBHMnBPIfTbLiFUTRI1XTNdUhMsuGWSDkcJTkt02EJND2R+rrDkENJd6R3aBhiMQmVaRiiQdEVKUtqYZInWQ5HSViJ4lKSDUopLiU5lEQ5nCV5EmZJLdV1ZBhSADU2rt56w5Cn+TDkaT4M6XCQcjCJhiFKkuFSURblcFmURbktpWGIkhyMhoM6DHmaD0Oe5sMQAgAAAAT//wA=";
+export { u8g2_font_streamline_interface_essential_alert_t };
+export default u8g2_font_streamline_interface_essential_alert_t;

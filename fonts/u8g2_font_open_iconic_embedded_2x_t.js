@@ -1,0 +1,9 @@
+/* u8g2 official font: u8g2_font_open_iconic_embedded_2x_t (441 bytes, 17 glyphs)
+ * Converted verbatim from u8g2_font_open_iconic_embedded_2x_t.c; byte-for-byte identical to the device build.
+ * Usage:
+ *   import b64 from 'u8g2-js/fonts/u8g2_font_open_iconic_embedded_2x_t.js';
+ *   const font = U8g2Font.fromBase64(b64);   // or U8g2Font.register('u8g2_font_open_iconic_embedded_2x_t', font)
+ */
+const u8g2_font_open_iconic_embedded_2x_t = "EQAEBAUFBAMGEBAAABAAEAAAFAAAAZ1AFJChYXDiRKgQoUKE2qkQoUI8AUEXECJhI2sSIe6UqWLj4sED8RCSFgcAQiEQIuETTXAEiUFcDRpEjEQxZSWIEZqKEaMRJAaSFgcAQxboceEZNGrQKFejRI0Sc8IMoVGiAEQZzqVhE0vSmBoWLpjwhBARQkQIESFEAgBFE+8h4RU9tTjBRA2eu0OTRckCRhuQ4WELH3z0JCJJCDLxIgkJgmJEihEpRhgARx0OImETS5RkSYPmhgwbMooIISJk1jCpwsiDBwRIGRAi4RRMeDCtgilLpipZ0UqDiA0SWjQASQ6QoWFw4pMHfzDEJwBKIAkuYRE3jJSIESGEHBkxDSlCI0YQISFkiIgxpIaJAksdECLhMqjKCJlDQ06JQLVMr0acEnJojBFSCk0BTBAOImH4H5wH/eABEiYPHk0QCiphE0aI/iPrgRIjAwBOIA4iYRMsZRAhoYRII4sxYgoJIkppwRECxQwahc4QAE8bECLhMqhCCCETA0kIRIdc5sOFDyc0TKEpAFAWDyJhOtWCHInwsCmYLlR4mA6eGQAAAAAE//8A";
+export { u8g2_font_open_iconic_embedded_2x_t };
+export default u8g2_font_open_iconic_embedded_2x_t;

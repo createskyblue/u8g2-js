@@ -1,0 +1,9 @@
+/* u8g2 official font: u8g2_font_lastpriestess_tu (563 bytes, 40 glyphs)
+ * Converted verbatim from u8g2_font_lastpriestess_tu.c; byte-for-byte identical to the device build.
+ * Usage:
+ *   import b64 from 'u8g2-js/fonts/u8g2_font_lastpriestess_tu.js';
+ *   const font = U8g2Font.fromBase64(b64);   // or U8g2Font.register('u8g2_font_lastpriestess_tu', font)
+ */
+const u8g2_font_lastpriestess_tu = "KAADAwQEAgQFDAz//gr+Cv4AcgAAAhcgBQBiBSEHkiPFoUQnB0L6BEUCKwpV61UwVAqGACwHQhsFRQItBhWyRQEuBiIjBQEvDqWiZVowFowFY8EgADoHYisFkQA7CIIjBZEiATwIdKddKGMGPQc170W1AD4JdKdFMFM2AD8NlyJOZUQTqsqhSgBBFKlh5nwakUaEIWFIZouJgpLZAEISqGJOaaSpJlKTyCQyiUhiAkMQqaJmSSaRzrVPIzORBQBEFamijmkmEoaEEqFEKBFKZCKlIgBFEKhizmEmEUZqYo0R2UECRg6oYs5hJhFGamJdiQBHE6riZk1JGpFDxERbqBqayUwASBSoYo6sJpFJLjKJTCKTyCSymgBJCKRijUm/EEoMpuLdaKiXkERpBEsTqGKOrCaRhWoitZBMIpPISgNMDKhijnSsjxHZQQJNFqrijtQ2YZFMNElEIYkoJJFKpFUBThKpoo7QJiFJ9FNEiSKbyIwCTw2polZNRcpXiUxWAlAQqGKOZSaRSWQSk1grEQBRDbmeVk1FyieJEsk+UhOoYo5lJpFJaiK1kEwik8hMAlMPqGJOaRYRj82rtIkFAFQNqGLGYaImion1SgJVDKhihpA/SoIxEgBWD6hihpBRItJbKEgVywBXF6sih5xdIhWJQioTWWQSnAxl0lgMAFgTqaKOTCRTkY7HkahEKJGpzAZZDqmixlAiFCmS5TqTAFoMpyLOITbUq2x2EAAAAAT//wA=";
+export { u8g2_font_lastpriestess_tu };
+export default u8g2_font_lastpriestess_tu;

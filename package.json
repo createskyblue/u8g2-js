@@ -10,6 +10,7 @@
   "files": [
     "src/",
     "tools/",
+    "fonts/",
     "demo/",
     "README.md",
     "README.zh-CN.md",
@@ -19,6 +20,8 @@
     "test": "node --test",
     "build:demo": "node tools/build-demo.js",
     "check:demo": "node tools/check-demo.js",
+    "fonts:build": "node tools/convert-all-fonts.js",
+    "fonts:verify": "node tools/verify-font-pack.mjs",
     "cverify": "bash tools/cverify/build.sh"
   },
   "keywords": [

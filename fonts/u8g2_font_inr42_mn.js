@@ -1,0 +1,9 @@
+/* u8g2 official font: u8g2_font_inr42_mn (1090 bytes, 18 glyphs)
+ * Converted verbatim from u8g2_font_inr42_mn.c; byte-for-byte identical to the device build.
+ * Usage:
+ *   import b64 from 'u8g2-js/fonts/u8g2_font_inr42_mn.js';
+ *   const font = U8g2Font.fromBase64(b64);   // or U8g2Font.register('u8g2_font_inr42_mn', font)
+ */
+const u8g2_font_inr42_mn = "EgIFBAYGAQUHIjcA9Sr1LPUAAAAABCYgD+K9iD/8////////nwIqROK9iD/8z5VedeJpVCCSQiqGHIIOIeQcNYZQSIXWHhh06cLNRpkIcssgtZAyiymymBILKq+o0owyjbARgwsf/v8vACse4r2IP/y3iKf/yQfYeYCdB9h5gE3i6X8f/v/vACwh4r2IP/z/////C6QbfnTS2D7cdOKpTvzwpFN+fBACBS0a4r2IP/z//8wDST2Q1ANJPZA+/P///xMALhfivYg//P////99w81GGtuGmw//FwEvQuK9iLP4IJBe8dILL7100ksnveKlF1564aUXXnrppJdOesVLL7z0wksvvPTSSS+d9IqXXnjphZde/PhAhA//JAAweeK9iD/sGq0uq24eUqI55ZlUXFmkGUZYaYRVqzSjCjuqLKTIIoGkosggqCgyCCqJEIIKIoWgckohqBxiCCqGHIJKIYigQgoiqIySCCqDKIJMIIskpYhKiyjEiDqNLMMIM4y0skozijyDCDymxAfCdJVh5MOH/z0AMR3ivYg/TBNuNMLKMuqoGYUOU3r9////+/B/DwAyOOK9iD/Mnszokw+Md8pxJhlWmGHDFRec6fU66RUv3Gz7j9f1wqteYlAPJPVAUg8k9UD68H8HADNF4r2IP6wizOgDIT4w3inoEWVeaKWbXsdLL9xsk1FdN+V120b89NJNL770ery44EoTzTCyDDsHsQfMe2DEVxcXH/4HATRN4r2IP8yTXri1j8ZyyiMUTEK5RJRLRLFklEpIqYQUSkqZxJRJTJHkFDlQiQQVSFKBJJVHVHFkFUdWaQ+w8wA7D7DzALul138f/m8BNUbivYg/DD5g2gOmPWDaA6YRT/96GWc+MOAD5D1QHCqomXQYYcYFZ3rlS6+PlxZeYeIVVVpZFjvnuAcIfEDIVxcXH/73ADZh4r2IPyyfzOiTD4x3inkmjWdWgIWXXnjpVSe9lBPLWK+I5kp4bZHDEjLrrLJMK8q0ooorqrySyiupvJLKK6m8osgrqriiiiOrtMIqZlRxBhl3jIEPjPhAmO2qHj78zwE3OeK9iD/sPYDWA2g9gNYDiJdeeOmlk17x0ksnveKll0561UmveOkVL73ipVe89IqXXvHSy4f/qwA4YOK9iD8MH8zqkw8IeMh5BhlXVGllGVZ/zKzSiirOpPLMKfCUMk8wlWGEGS3jyGLOK6m4sgorzKzSyiKvpPJKKq+k8koqr6TySjLNqNLKstg5xz1A4ANCvrp4+PC/BwA5YOK9iD/smsyqmw+EeMh5BhlXVGmFVY2s4ooqrqjyiCqPqPJKKq+k8koqr6jiiirNKLPOMgmxUxR7IITSnChvjRJPKZ140mud9NIJDKw8scoj6LgHCHxASGcVFx/+FwE6H+K9iD/8/2+QbjbSuG06+fD/M4abjTS2DTcf/ucAAAAABP//AA==";
+export { u8g2_font_inr42_mn };
+export default u8g2_font_inr42_mn;

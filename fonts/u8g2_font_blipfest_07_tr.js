@@ -1,0 +1,9 @@
+/* u8g2 official font: u8g2_font_blipfest_07_tr (539 bytes, 77 glyphs)
+ * Converted verbatim from u8g2_font_blipfest_07_tr.c; byte-for-byte identical to the device build.
+ * Usage:
+ *   import b64 from 'u8g2-js/fonts/u8g2_font_blipfest_07_tr.js';
+ *   const font = U8g2Font.fromBase64(b64);   // or U8g2Font.register('u8g2_font_blipfest_07_tr', font)
+ */
+const u8g2_font_blipfest_07_tr = "TQACAwMDAQMEBQYA/wX/Bf8AlQFRAf8gBEAmIQZpKlMAIgbTM5EUJghsNlOqiggnBdErAisH23LRFAEsBVEqAi0FSzMDLgVJKgEwB2sylIoAMQZqLlIOMgZrMmM5MwZrMiMDNAdrMpFEJjUGazLkSDYGazIkRTcGazJjDjgGazJURTkGazIUSToGWSpRADsG4SmRAD0G2zLzAD8JazJjJEMRAEAJbTq2REUVAEEHazKUVAVCBmsyVEVDB2syZHIARAhrMlKkmgBFBmsyJDlGB2syJBkCRwdrMmQkEUgHazKRqgpJB2syU5gaSgdrskmJAEsHazKRakpMB2syYeYATQdrMlGlCk4HazKUVgBPB2sylIoAUAdrMpRUAlEIazKUREUAUgdrMpQ0JVMGazLkSFQHazJTmAVVB2sykRYBVghrMpFWCgBXB2sykeoAWAhrMpGUJQVZCGsykSoZAVoGazJjOV8FSzIDYQZbchMBYgdrMmFIEWMGWzLkAGQGa7JhRWUGWzLUBGYJa3JSNIURAGcH4zEUFQFoCGsyYUhJAWkGaSrRAGoGam5xNGsHazJhakpsBWkqBW0HXTpWJCVuB1syUiQFbwZbMhQBcAbjMVQJcQbjMRQZcgZbMmQIcwdbclIkAXQIa3LRFIYCdQZbMpFEdgdbMpGUAncIXTpRJOUCeAZbMlEOeQfjMZFEBnoGWzJTNAAAAAT//wA=";
+export { u8g2_font_blipfest_07_tr };
+export default u8g2_font_blipfest_07_tr;

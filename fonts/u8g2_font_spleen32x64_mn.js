@@ -1,0 +1,9 @@
+/* u8g2 official font: u8g2_font_spleen32x64_mn (961 bytes, 18 glyphs)
+ * Converted verbatim from u8g2_font_spleen32x64_mn.c; byte-for-byte identical to the device build.
+ * Usage:
+ *   import b64 from 'u8g2-js/fonts/u8g2_font_spleen32x64_mn.js';
+ *   const font = U8g2Font.fromBase64(b64);   // or U8g2Font.register('u8g2_font_spleen32x64_mn', font)
+ */
+const u8g2_font_spleen32x64_mn = "EgIFBQYGAQQHIDoA+jT0NPQAAAAAA6UgD6BewB/8////////bwMqPKBewB/8/58mGBkrVMEMZDTDGM8gRjSEMZmqXASjHEf4HIJRV6nMNIQRDWI8wxjNQAYrVMHIffAfBAArGKBewB/8//87BCc/SjE6SnDy++D/4wAsG6BewB/8/////79NcPJ2oYt8ZEMXe/igCgAtE6BewB/8////KxjC++D//9MALhOgXsAf/P//////OsHJ++CjAC9PoF7AH/wCwYld0sUudLELXexCF7vQxS50sQtd7EIXu9DFLnSxC13sQhe70MUudLELXexCF7vQxS50sQtd7EIXu9DFLnSxC13sYhOc0AAweqBewB/8X3Wg1KhlqYIVqXAFIiCBCEggAhKIeAUinIGIdiCCIYhYCSKUgohkBAIRyBAEIo4xCEQYgxCIKEYhEEEMQyBiGIdAhDAQKRiJQIoiULIIhDACHY1AhiNQ8QhEQAIRkEAEJBABCVS4IhWsUNaimgSdD74HADEpoF7AH/wfNvKBkZvYIhC1EAQtBkEJQtChEFQwBCf///9RitF98DEAMjCgXsAf/F91oNSoZamCFalwBSIggQhIcPI2sQtd/v97BCIggQhIIAISCN8HnwIAMzqgXsAf/F91oNSoZamCFalwBSIggQhIcPJtEnyiIx35dDJO/iECEoiABCpckQpWKGtRTYLOB98DADQboF7AH/wfJDj5Y+T////HMISHCU7+98HnADU4oF7AH/wfxBAeIiCBCEggAhKIgAQiOPnxqVXLUtcueMHJf4iABCIggQpXpIIVylpUk6DzwfcANlegXsAf/F91oNSoZamCFalwBSIggQhIIIKTH59atSx1JcIViXgFIiCBCEggAhKIgAQiIIEISCACEoiABCIggQhIIAISiIAEKlyRClYoa1FNgs4H3wMANySgXsAf/B/EEB4iIIEISCACEoiABCdvF7r8bxOc/H8ffBYAOGmgXsAf/F91oNSoZamCFalwBSIggQhIIAISiIAEIiCBCEggAhKIgEQiHLEIRjTpQRB6UiMYsQhHJAISiIAEIiCBCEggAhKIgAQiIIEISCACEoiABCIggQhIoMIVqWCFshbVJOh88D0AOVWgXsAf/F91oNSoZamCFalwBSIggQhIIAISiIAEIiCBCEggAhKIgAQiIIEISCACEoiABCoekQpHpEtZq2oTJ3+IgAQiIIEKV6SCFcpaVJOg88H3ADoXoF7AH/z//y8RnLwP/n+L4OR98FEAAAAABP//AA==";
+export { u8g2_font_spleen32x64_mn };
+export default u8g2_font_spleen32x64_mn;

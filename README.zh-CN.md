@@ -158,6 +158,33 @@ node tools/convert-fonts.js --batch .../single_font_files -o myfonts --format bi
 
 `demo/fonts/` 里已内置 9 个经典示例字体 + 3 个全量中文字库（均含 .bin + .js）。
 
+### 官方字体包 —— 全部 2174 个 U8G2 字体预编译成 JS
+
+**官方 U8G2 全部字体**已预编译成可直接 import 的 JS 模块，放在 `fonts/` 下
+（一个字体一个文件：`u8g2_font_5x7_tf.js`、`u8x8_font_8x16_1x2_f.js` …）。
+数据**逐字节取自 C 数组**，与真机编译到设备里的字体字节完全一致
+（已用 `gcc` 编译出的参考数组逐字节对拍验证；每个字体的长度也按 `.c` 头里声明的 `[N]` 校验过）。
+
+```js
+import b64 from 'u8g2-js/fonts/u8g2_font_10x20_tf.js';
+
+const font = U8g2Font.fromBase64(b64);            // -> U8g2Font
+U8g2Font.register('u8g2_font_10x20_tf', font);    // 然后 setFont('u8g2_font_10x20_tf')
+```
+
+每个模块都是自包含的小 ESM，只导出一个 base64 字符串——不想一次全打进来的话，
+可以按需 import，交给打包器 tree-shake。
+
+`fonts/index.json` 是所有 2174 个字体的轻量清单：`{ name, file, size, glyphs }`，
+适合用来搭字体选择器（比如仿真器里的下拉列表），不用把字体数据本身全加载进来。
+
+从上游 C 源重新生成 / 刷新这个包：
+
+```bash
+node tools/convert-all-fonts.js            # 读 ../u8g2/tools/font/build/single_font_files
+                                           # 生成 fonts/*.js + fonts/index.json
+```
+
 ## 显示设备
 
 `setup.js` 里注册了 ~30 种常见屏（参数取自 u8x8_d_*.c 的 display_info）：
@@ -222,8 +249,10 @@ u8g2-js/
     renderer/         # canvas.js（浏览器显示） + pbm.js（无头导出）
     index.js          # 统一出口
   demo/               # 交互式仿真页（demo.html + demo-standalone.html）
+  fonts/              # 官方字体包：2174 个预编译 JS 模块 + index.json
   tools/
     convert-fonts.js  # .c 字体 -> .bin/.js/.json（含批量）
+    convert-all-fonts.js # 全部 .c 字体 -> fonts/*.js + fonts/index.json
     build-demo.js     # 打包自包含 demo-standalone.html
     check-demo.js     # demo 启动自检
     cverify/          # 与原版 C 库逐字节交叉验证

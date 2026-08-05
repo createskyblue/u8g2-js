@@ -167,6 +167,35 @@ node tools/convert-fonts.js --batch .../single_font_files -o myfonts --format bi
 
 `demo/fonts/` ships 9 classic example fonts + the 3 full Chinese fonts (each as `.bin` and `.js`).
 
+### Official font pack — all 2174 U8G2 fonts, precompiled
+
+The **entire official U8G2 font collection** is precompiled as import-ready JS modules under
+`fonts/` — one file per font (`u8g2_font_5x7_tf.js`, `u8x8_font_8x16_1x2_f.js`, …). The bytes
+are taken **verbatim from the C arrays**, so each is byte-for-byte identical to the font compiled
+onto a real device (verified against `gcc`-compiled reference arrays, plus every font's length is
+checked against the size declared in its `.c` header).
+
+```js
+import b64 from 'u8g2-js/fonts/u8g2_font_10x20_tf.js';
+
+const font = U8g2Font.fromBase64(b64);            // -> U8g2Font
+U8g2Font.register('u8g2_font_10x20_tf', font);    // then setFont('u8g2_font_10x20_tf')
+```
+
+Or keep them out of the bundle and import on demand — every module is a small self-contained
+ESM that just exports its base64 string.
+
+`fonts/index.json` is a lightweight manifest of all 2174 fonts:
+`{ name, file, size, glyphs }` — handy for building a font picker (e.g. a `<select>` for the
+simulator) without importing the font data itself.
+
+Reproduce / refresh the pack from the upstream C sources:
+
+```bash
+node tools/convert-all-fonts.js            # reads ../u8g2/tools/font/build/single_font_files
+                                           # writes fonts/*.js + fonts/index.json
+```
+
 ## Displays
 
 `setup.js` registers ~30 common panels (parameters from the `u8x8_d_*.c` display_info structs):
@@ -234,8 +263,10 @@ u8g2-js/
     renderer/         # canvas.js (browser) + pbm.js (headless export)
     index.js          # unified entry point
   demo/               # interactive simulator (demo.html + demo-standalone.html)
+  fonts/              # official font pack: 2174 precompiled JS modules + index.json
   tools/
     convert-fonts.js  # .c font -> .bin/.js/.json (incl. batch)
+    convert-all-fonts.js # .c font pack -> fonts/*.js + fonts/index.json
     build-demo.js     # bundles the self-contained demo-standalone.html
     check-demo.js     # demo boot self-check
     cverify/          # byte-for-byte cross-validation against the real C library

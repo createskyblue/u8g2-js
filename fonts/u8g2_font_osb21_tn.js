@@ -1,0 +1,9 @@
+/* u8g2 official font: u8g2_font_osb21_tn (563 bytes, 18 glyphs)
+ * Converted verbatim from u8g2_font_osb21_tn.c; byte-for-byte identical to the device build.
+ * Usage:
+ *   import b64 from 'u8g2-js/fonts/u8g2_font_osb21_tn.js';
+ *   const font = U8g2Font.fromBase64(b64);   // or U8g2Font.register('u8g2_font_osb21_tn', font)
+ */
+const u8g2_font_osb21_tn = "EgAEAwUFAwUGGRsA+hX5FfoAAAAAAhcgBgAQogAqGoo5uyQ4NzMSUhIxYiZEcRASIhGiaG4GACs2OJfpKw8nDycPJw8nDycPJw8nDycPJw8ne/AHtvJw8nDycPJw8nDycPJw8nDycPJw8nCyACwPJXWdMXFwEBQjk0QGAC0HZ9iu8AEuCoQYoiFxECEBLxhpW7WnmZy6OM3klMmpi9NMTpmcukAAMC/O9sFFODImJDU0Q0RCREJEUXQwdDB0MHQwdDB0MHQwVEFEQkQztJWQnIioGAAxDqkewiU2RXLF/z85EDImzPrBYyUzIzUx9SDoQOZApESGjrtBuZDAiMjJgwcTMRdBlUEAMyjN+sFjJqRqZIqCiKKGooaEhnJZ9SjpyNSB0IHQQdTZiBSNzNwYADQfrRbCNzrJsJ2ZBJkElQhVDJEMURCNEM2BGSXPDgY1Kc36wSE1cyB0EHVWGJwJ2QxNVEkYZWHF0MHMwcyBEMUUiRCRzNwYADYuzfrBVTYUNCUjNTJEMkQyNELJgqhmhGqCaoJqguogimJqZGpGamZITERSCgA3IKv+wRAyExFRcjByIDJzJiEYERgRFxoZKTgouI6PADgszfrBVCYlIxcjGDEYMRhBJmEUcxF0IHUgdSATcxF2Z8lSQjBETmgmcggAOSvN+sFEJyS0ZkqEaoJqguog6iCKYopiimSmBSWToRGiESKZoRkpJYNyADoPxBmiIXFQIQ8ncRAhAQAAAAT//wA=";
+export { u8g2_font_osb21_tn };
+export default u8g2_font_osb21_tn;

@@ -1,0 +1,9 @@
+/* u8g2 official font: u8g2_font_streamline_weather_t (580 bytes, 10 glyphs)
+ * Converted verbatim from u8g2_font_streamline_weather_t.c; byte-for-byte identical to the device build.
+ * Usage:
+ *   import b64 from 'u8g2-js/fonts/u8g2_font_streamline_weather_t.js';
+ *   const font = U8g2Font.fromBase64(b64);   // or U8g2Font.register('u8g2_font_streamline_weather_t', font)
+ */
+const u8g2_font_streamline_weather_t = "CgAEAgUFAwMGFRUAABUAFQAAAAAAAigwLFXStedDtbn8enCrGSxzg4QqOUyuBsFMUSyViIX1ID1ID9JjInlEaPBBBjEzlLL1Q/KYRWogi6mkyWBqMEmF0qFsJBRdhMoiocwwVBkKxkLx1GBUGVWpB6I8ZpQOATJNtZK1R2oTkVJRJBrKRGLCSEoVS8UyqUg8FBpEMqnMYJjIDCKSTCQyGCREmchgoAhlIoOBIhOKDA4yocxgoIllBqNYaJARJrMj/SALMywx2rUNpCpdMpWRZUKaknQiktNINQpNUKGM6BM5USSTEWWyqUwqp5IOZAA0PJSytQ/Eq+Awpk2lQ8nBJje4SQ0OJKnBKhIa6CKhQTARGiQTodVAEhrFQqNcaJQLjXKhUS40Cg4OhAA1La+etYoHucFVahDKqRKZRCwXi0xyqVxVMpMqCY0SsZhanUiVhEaZUJXhQAU2Ma6e9Wgj0Ug0EhpESiPRSDQSGkRKI9FBdBAaRAbRQXKwGyhkg0VssIgNBrrBchAENzSzljVlM0l1RpWHSWOqZGowCJkkIjZdhTKhmlSmKBWKhFKhyOADaR6Tx+QxeUw+kkdIATg6tZK15lF5yGAQ1imzuVAmlAqlQq1CmVAuFAnlQok8SCIaSRSRipKKIklElM2j8qg8Ko/KQ+oxWgA5RrWSdQ9EukkTUbtBJiJJZSoGicymYpCI1FQMEpGaikEis6kYJFKZikEiNshEJMlQzWpSoskNlLs8Ko9Kj7KaRR6VR4UAAAAABP//AA==";
+export { u8g2_font_streamline_weather_t };
+export default u8g2_font_streamline_weather_t;

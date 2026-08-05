@@ -1,0 +1,9 @@
+/* u8g2 official font: u8x8_font_victoriabold8_u (516 bytes, 32 glyphs)
+ * Converted verbatim from u8x8_font_victoriabold8_u.c; byte-for-byte identical to the device build.
+ * Usage:
+ *   import b64 from 'u8g2-js/fonts/u8x8_font_victoriabold8_u.js';
+ *   const font = U8g2Font.fromBase64(b64);   // or U8g2Font.register('u8x8_font_victoriabold8_u', font)
+ */
+const u8x8_font_victoriabold8_u = "IF8BAQAAAAAAAAAAAAAAX18AAAAABwcAAAcHAAAif38if38iACQua2s6EgAAYzMYDGZjAAAgdl9Jf3ZQAAAABwcAAAAAABw+Y0EAAAAAQWM+HAAABBUfDh8VBAAAAAgIPggIAAAAQHAwAAAAAAgICAgICAAAAABgYAAAAABgMBgMBgMAAD5/QUF/PgAAQEJ/f0BAAABic1lJT0YAACJjSUl/NgAAHB5Tf39QAAAnZ0VFfTkAAD5/SUl7MgAAAQF5fQcDAAA2f0lJfzYAACZvSUl/PgAAAAA2NgAAAAAAAHY2AAAAAAAIHDZjQQAAFBQUFBQUAAAAQWM2HAgAAAIBWVkPBgA8QpmlpbkiHAB+fwkJf34AAH9/SUl/NgAAPn9BQWMiAAB/f0FBfz4AAH9/SUlBQQAAf38JCQEBAAA+f0FJezoAAH9/CAh/fwAAAEF/f0EAAAAgYEBAfz8AAH9/HDZjQQAAf39AQEBAAH9/BgwGf38AAH9/DBh/fwAAPn9BQX8+AAB/fwkJDwYAAD5/QUH/vgAAf38ZOW9GAAAmb0lJezIAAAEBf38BAQAAP39AQH8/AAAfP2BgPx8Af38wGDB/fwAAY3ccHHdjAAAHD3h4DwcAAGFxWU1HQwAAAH9/QUEAAAADBgwYMGAAAABBQX9/AAAAAAwGAwYMAICAgICAgICA";
+export { u8x8_font_victoriabold8_u };
+export default u8x8_font_victoriabold8_u;

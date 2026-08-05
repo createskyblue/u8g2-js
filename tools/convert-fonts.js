@@ -27,18 +27,21 @@ import { parseCStringBytes } from '../src/font.js';
 /* ------------------------------------------------------------------ */
 
 /**
- * Find the first "const uint8_t NAME[...] U8G2_FONT_SECTION("...") = "...."
+ * Find the first "const uint8_t NAME[..] U8G2/U8X8_FONT_SECTION("...") = "...."
  * in a C file and decode it into bytes.
  *
  * Generated font files split the long string literal into many adjacent
  * fragments, so we collect every fragment until the statement ends.
- * @returns {{name:string, bytes:Uint8Array}|null}
+ * The declared array size "[N]" is captured so callers can verify the
+ * decoded byte length matches what the C compiler would enforce.
+ * @returns {{name:string, bytes:Uint8Array, size:number|null}|null}
  */
 export function extractFontFromC(content) {
-  const headRe = /const\s+uint8_t\s+([A-Za-z_]\w*)\s*(?:\[\s*\d*\s*\])?\s*U8G2_FONT_SECTION\s*\(\s*"[^"]*"\s*\)\s*=/;
+  const headRe = /const\s+uint8_t\s+([A-Za-z_]\w*)\s*(?:\[\s*(\d*)\s*\])?\s*(?:U8G2|U8X8)_FONT_SECTION\s*\(\s*"[^"]*"\s*\)\s*=/;
   const m = content.match(headRe);
   if (!m) return null;
   const name = m[1];
+  const size = m[2] ? Number(m[2]) : null;
 
   let i = content.indexOf('"', m.index + m[0].length);
   if (i === -1) return null;
@@ -64,7 +67,7 @@ export function extractFontFromC(content) {
     if (content[k] !== '"') break;
     i = k;
   }
-  return { name, bytes: parseCStringBytes(frags.join('')) };
+  return { name, bytes: parseCStringBytes(frags.join('')), size };
 }
 
 /** Batch: extract every font from a set of .c files. */
@@ -172,4 +175,8 @@ function main() {
   console.log(`wrote ${fonts.length} font(s) as [${args.formats.join(',')}] to ${resolve(args.outDir)}`);
 }
 
-main();
+/* Only run as a CLI when invoked directly; imported by convert-all-fonts.js. */
+import { pathToFileURL } from 'node:url';
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main();
+}
