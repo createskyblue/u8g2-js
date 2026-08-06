@@ -91,6 +91,8 @@ python -m http.server      # 然后打开 http://localhost:8000/demo/demo.html
 - **`demo/chinese-fonts/index.html`** —— **中文字体家族对比页**：每个字体家族一块 720×720
   虚拟屏（像素 1:1、无缩放），**← → 方向键或选项卡**切换；切到某个家族才**按需动态加载**它的字体
   —— 18 个家族（宋体全 6 档、MapleMono-NF-CN 全部字重、黑体/雅黑/楷体/仿宋/思源黑体/等线各 12/16/24 px）。
+- **`demo/siji-icons/index.html`** —— **图标库浏览**：u8g2 图标字体网格渲染
+  （[Siji](https://github.com/stark/siji) 图标库 PUA 区 + open_iconic 系列）。
 
 **不再提供 `-standalone` 单文件 HTML**（占地太大，已移除）。
 无头自检：`node tools/check-demo.js` 和 `node tools/check-chinese-fonts.js`。

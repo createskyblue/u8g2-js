@@ -99,6 +99,8 @@ Start from the **root [`index.html`](./index.html)** — a navigation hub for al
   virtual screen (pixel 1:1, no scaling) per family, switched with the ← → arrow keys or the tabs.
   Fonts **load on demand** when you switch families — 18 families (SimSun at all six sizes, every
   MapleMono-NF-CN weight, SimHei / YaHei / KaiTi / FangSong / Noto Sans SC / DengXian at 12/16/24 px).
+- **`demo/siji-icons/index.html`** — the **Siji icon library** browser: u8g2 icon fonts
+  ([Siji](https://github.com/stark/siji) PUA icons + the open_iconic series) rendered in a grid.
 
 There is **no pre-built `-standalone` single-file HTML** — it was dropped to keep the repo small.
 Headless smoke checks: `node tools/check-demo.js` and `node tools/check-chinese-fonts.js`.

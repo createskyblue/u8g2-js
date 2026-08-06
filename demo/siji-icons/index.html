@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>u8g2 图标浏览 · Siji</title>
+<style>
+  body { background:#f7f7f2; color:#111; font-family:monospace; padding:20px; }
+  h1 { font-size:16px; }
+  h2 { font-size:14px; margin-top:28px; }
+  p { max-width:680px; line-height:1.6; }
+  canvas { image-rendering:pixelated; border:1px solid #ccc; display:block; margin:8px 0; }
+</style>
+</head>
+<body>
+<h1>u8g2 图标字体浏览</h1>
+<p>找到电池图标后，告诉我 <b>字体名 + 编码</b>（如 <code>Siji E1F0</code>）。</p>
+<p>Siji 图标库来源：<a href="https://github.com/stark/siji" target="_blank" rel="noopener noreferrer">https://github.com/stark/siji</a>
+（U8G2 收录为 <code>u8g2_font_siji_t_6x10</code>）。</p>
+
+<h2>1. Siji PUA 区图标（0xE000–0xE276，真正的图标都在这里）</h2>
+<canvas id="siji-pua"></canvas>
+
+<h2>2. open_iconic_weather_2x</h2>
+<canvas id="oc-weather"></canvas>
+
+<h2>3. open_iconic_thing_2x</h2>
+<canvas id="oc-thing"></canvas>
+
+<h2>4. open_iconic_other_2x</h2>
+<canvas id="oc-other"></canvas>
+
+<h2>5. open_iconic_app_2x</h2>
+<canvas id="oc-app"></canvas>
+
+<script type="module">
+import { U8g2, U8g2Font } from '../../src/index.js';
+import siji from '../../fonts/u8g2_font_siji_t_6x10.js';
+import smallB64 from '../../fonts/u8g2_font_5x7_tf.js';
+
+const smallFont = U8g2Font.fromBase64(smallB64);
+
+function renderGrid(canvasId, font, codes, cols, scale) {
+  const canvas = document.getElementById(canvasId);
+  const CELLW = 28, CELLH = 20;
+  const rows = Math.ceil(codes.length / cols);
+  const W = cols * CELLW, H = rows * CELLH;
+  canvas.width = W * scale;
+  canvas.height = H * scale;
+  canvas.style.width = (W * scale) + 'px';
+  canvas.style.height = (H * scale) + 'px';
+  const u8g2 = new U8g2({ width: W, height: H, layout: 'vertical' });
+  u8g2.setFontMode(1); u8g2.setFontPosTop();
+  u8g2.attachCanvas(canvas, { scale, background:'#f7f7f2', onColor:'#111111', offColor:'#f7f7f2', bezel:false });
+  codes.forEach((cp, i) => {
+    const col = i % cols, row = Math.floor(i / cols);
+    const x = col * CELLW, y = row * CELLH;
+    u8g2.setFont(font);
+    u8g2.drawUTF8(x + 3, y + 1, String.fromCodePoint(cp));
+    u8g2.setFont(smallFont);
+    const label = cp.toString(16).toUpperCase();
+    const lw = u8g2.getUTF8Width(label);
+    u8g2.drawUTF8(x + Math.floor((CELLW - lw) / 2), y + 13, label);
+  });
+  u8g2.sendBuffer();
+}
+
+// Siji PUA 0xE000-0xE276
+const sijiFont = U8g2Font.fromBase64(siji);
+const pua = [];
+for (let cp = 0xE000; cp <= 0xE276; cp++) pua.push(cp);
+renderGrid('siji-pua', sijiFont, pua, 24, 2);
+
+// open_iconic 字体
+const ocFonts = [
+  ['oc-weather', 'u8g2_font_open_iconic_weather_2x_t'],
+  ['oc-thing', 'u8g2_font_open_iconic_thing_2x_t'],
+  ['oc-other', 'u8g2_font_open_iconic_other_2x_t'],
+  ['oc-app', 'u8g2_font_open_iconic_app_2x_t'],
+];
+for (const [id, name] of ocFonts) {
+  const mod = await import('../../fonts/' + name + '.js');
+  const font = U8g2Font.fromBase64(mod.default);
+  const codes = [];
+  for (let cp = 0x20; cp <= 0x7e; cp++) if (font.hasGlyph(cp)) codes.push(cp);
+  renderGrid(id, font, codes, 16, 3);
+}
+</script>
+</body>
+</html>
