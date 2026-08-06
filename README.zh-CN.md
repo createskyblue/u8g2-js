@@ -80,6 +80,10 @@ console.log(toPBM(u8g2));   // 导出 P4 PBM
 （下拉 / `.bin` 文件 / 粘贴 base64）。默认示例就是一个**中文仪表盘**（温度传感器 / 湿度 / 状态），
 演示内置的全量中文字库。
 
+另外还有专门的**中文字库测试页** `demo/chinese-fonts-demo.html`（同样双击即开，file://）：
+一页用经典字体测试句**「我能吞下玻璃而不伤身体」**渲染全部 4 个内置全量中文字库（**12 / 16 / 24 / 32 px**），
+512×512 虚拟屏，句末附字体名——一页看全所有中文字号的实际渲染效果。
+
 开发态可改 `demo/demo.html`（ESM，需本地服务器），改完重新打包：
 
 ```bash
@@ -258,13 +262,16 @@ u8g2-js/
     setup.js          # 显示屏预设表 + 自定义屏
     renderer/         # canvas.js（浏览器显示） + pbm.js（无头导出）
     index.js          # 统一出口
-  demo/               # 交互式仿真页（demo.html + demo-standalone.html）
+  demo/               # 交互式仿真页 + chinese-fonts-demo.html（中文字库测试页）
   fonts/              # 官方字体包：2174 个预编译 JS 模块 + index.json
   tools/
     convert-fonts.js  # .c 字体 -> .bin/.js/.json（含批量）
     convert-all-fonts.js # 全部 .c 字体 -> fonts/*.js + fonts/index.json
     build-demo.js     # 打包自包含 demo-standalone.html
     check-demo.js     # demo 启动自检
+    build-chinese-demo.js # 打包 demo/chinese-fonts-demo.html
+    check-chinese-demo.js # 中文字库测试页启动自检
+    fontgen/          # 全量中文字库生成（gen_full.py，12/16/24/32 px）
     cverify/          # 与原版 C 库逐字节交叉验证
   test/test.js        # Node 无头测试套件（30 项）
 ```

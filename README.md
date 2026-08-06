@@ -87,6 +87,12 @@ animate, and **load any font at runtime** (dropdown / `.bin` file / paste base64
 sketch is a **Chinese dashboard** (temperature sensor / humidity / status) demonstrating the
 bundled full Chinese fonts.
 
+There is also a dedicated **Chinese-font test page**, `demo/chinese-fonts-demo.html` (also
+double-clickable, file://): one page renders the classic font-test sentence
+「我能吞下玻璃而不伤身体」in all four built-in full-CJK fonts (**12 / 16 / 24 / 32 px**) on a
+512×512 virtual screen, with the font name appended to the sentence — a quick way to judge every
+Chinese font's rendering at once.
+
 For development, edit `demo/demo.html` (ESM, needs a local server), then rebuild:
 
 ```bash
@@ -273,13 +279,16 @@ u8g2-js/
     setup.js          # display presets + custom displays
     renderer/         # canvas.js (browser) + pbm.js (headless export)
     index.js          # unified entry point
-  demo/               # interactive simulator (demo.html + demo-standalone.html)
+  demo/               # interactive simulator + chinese-fonts-demo.html (font test page)
   fonts/              # official font pack: 2174 precompiled JS modules + index.json
   tools/
     convert-fonts.js  # .c font -> .bin/.js/.json (incl. batch)
     convert-all-fonts.js # .c font pack -> fonts/*.js + fonts/index.json
     build-demo.js     # bundles the self-contained demo-standalone.html
     check-demo.js     # demo boot self-check
+    build-chinese-demo.js # bundles demo/chinese-fonts-demo.html
+    check-chinese-demo.js # chinese-font test page boot self-check
+    fontgen/          # full-CJK font generation (gen_full.py, 12/16/24/32 px)
     cverify/          # byte-for-byte cross-validation against the real C library
   test/test.js        # Node headless test suite (30 tests)
 ```

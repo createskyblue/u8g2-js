@@ -23,6 +23,7 @@ import { u8g2_font_unifont_t_symbols } from './fonts/u8g2_font_unifont_t_symbols
 import { chinese_full_12 } from './fonts/chinese_full_12.js';
 import { chinese_full_16 } from './fonts/chinese_full_16.js';
 import { chinese_full_24 } from './fonts/chinese_full_24.js';
+import { chinese_full_32 } from './fonts/chinese_full_32.js';
 
 const FONTS = {
   u8g2_font_5x7_tf,
@@ -38,6 +39,7 @@ const FONTS = {
   chinese_full_12,
   chinese_full_16,
   chinese_full_24,
+  chinese_full_32,
 };
 
 /* register the bundled fonts by name */

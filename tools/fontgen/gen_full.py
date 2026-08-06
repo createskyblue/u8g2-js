@@ -35,7 +35,7 @@ FULL_MAP = (
     "~$3031, ~$3032, $3400-$4DBF, $4E00-$9FFF, $FE30-$FE4F, $FF00-$FFEF"
 )
 
-SIZES = [12, 16, 24]
+SIZES = [12, 16, 24, 32]
 
 
 def main():
