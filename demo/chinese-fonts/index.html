@@ -14,8 +14,8 @@
   .tab.active { background:#1a73e8; color:#fff; border-color:#1a73e8; }
   #status { font-size:12.5px; color:#666; margin:8px 0; min-height:18px; }
   #name { font-size:14px; font-weight:600; margin:6px 0; }
-  /* 显示区域恰好 2 倍整数放大（不多不少），禁止任何 CSS/浏览器缩放 */
-  #screen { background:#fff; border:1px solid #eee; display:block; max-width:100%; }
+  /* 画布像素 1:1 卡死，禁止任何缩放（含 CSS 缩放） */
+  #screen { background:#fff; border:1px solid #eee; display:block; }
   .hint { color:#999; font-size:12px; margin-top:10px; }
 </style>
 </head>

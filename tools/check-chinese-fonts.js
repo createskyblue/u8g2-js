@@ -4,7 +4,7 @@
  *
  * Boot demo/chinese-fonts/demo.js in Node with DOM/canvas stubs and verify the
  * on-demand-loading page works: 18 family tabs, dynamic import of fonts, and
- * the single 1920×1080 @ exactly-2× canvas (3840×2160, no CSS scaling).
+ * the single 720×720 canvas (pixel 1:1, NO scaling).
  *
  *   node tools/check-chinese-fonts.js
  */
@@ -60,8 +60,8 @@ await import(new URL('../demo/chinese-fonts/demo.js', import.meta.url));
 
 /* 首次加载（SimSun）是异步的 */
 await waitStatus('已加载');
-if (screen.width !== 3840 || screen.height !== 2160) {
-  console.error(`FAIL: canvas must be exactly 3840x2160, got ${screen.width}x${screen.height}`);
+if (screen.width !== 720 || screen.height !== 720) {
+  console.error(`FAIL: canvas must be exactly 720x720 (1:1, no scaling), got ${screen.width}x${screen.height}`);
   process.exit(1);
 }
 if (tabsEl.children.length !== 18) {

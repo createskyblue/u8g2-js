@@ -8,8 +8,8 @@
 import { U8g2, U8g2Font } from '../../src/index.js';
 
 const QUOTE = '我能吞下玻璃而不伤身体';
-const VW = 1920;
-const VH = 1080;
+const VW = 720; /* 画布像素 1:1，禁止任何缩放 */
+const VH = 720;
 const GAP = 14;
 
 /* 每个家族：名字 + 要展示的字库名（按从上到下顺序） */
@@ -36,7 +36,7 @@ const FAMILIES = [
 
 const canvas = document.getElementById('screen');
 const u8g2 = new U8g2({ width: VW, height: VH });
-u8g2.attachCanvas(canvas, { scale: 2, pad: 0 }); /* 恰好 2 倍，不多不少 */
+u8g2.attachCanvas(canvas, { scale: 1, pad: 0 }); /* 像素 1:1，禁止任何缩放 */
 
 let active = 0;
 let busy = false;
