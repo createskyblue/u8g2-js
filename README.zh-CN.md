@@ -93,6 +93,9 @@ python -m http.server      # 然后打开 http://localhost:8000/demo/demo.html
   —— 18 个家族（宋体全 6 档、MapleMono-NF-CN 全部字重、黑体/雅黑/楷体/仿宋/思源黑体/等线各 12/16/24 px）。
 - **`demo/siji-icons/index.html`** —— **图标库浏览**：u8g2 图标字体网格渲染
   （[Siji](https://github.com/stark/siji) 图标库 PUA 区 + open_iconic 系列）。
+- **`demo/bomberman/index.html`** —— **《炸弹人》游戏**：Arduboy2 版
+  （[Bomberman.ino](https://github.com/createskyblue/Bomberman) 作者 LHW-HWT，CC BY-NC-SA）纯 JS 移植，
+  128×64 像素游戏，方向键移动、放炸弹炸墙炸怪。
 
 **不再提供 `-standalone` 单文件 HTML**（占地太大，已移除）。
 无头自检：`node tools/check-demo.js` 和 `node tools/check-chinese-fonts.js`。

@@ -101,6 +101,9 @@ Start from the **root [`index.html`](./index.html)** — a navigation hub for al
   MapleMono-NF-CN weight, SimHei / YaHei / KaiTi / FangSong / Noto Sans SC / DengXian at 12/16/24 px).
 - **`demo/siji-icons/index.html`** — the **Siji icon library** browser: u8g2 icon fonts
   ([Siji](https://github.com/stark/siji) PUA icons + the open_iconic series) rendered in a grid.
+- **`demo/bomberman/index.html`** — **Bomberman**, the Arduboy2 game
+  ([Bomberman.ino](https://github.com/createskyblue/Bomberman) by LHW-HWT, CC BY-NC-SA) ported to
+  u8g2-js: 128×64 pixel game, arrow keys move, place bombs to destroy the walls and monsters.
 
 There is **no pre-built `-standalone` single-file HTML** — it was dropped to keep the repo small.
 Headless smoke checks: `node tools/check-demo.js` and `node tools/check-chinese-fonts.js`.

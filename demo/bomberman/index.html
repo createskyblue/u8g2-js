@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>u8g2-js · Bomberman</title>
+<style>
+  body { font-family: system-ui, "PingFang SC", "Microsoft YaHei", sans-serif; background:#f2f3f5; color:#222; max-width:720px; margin:0 auto; padding:24px 20px 48px; }
+  h1 { font-size:20px; margin:0 0 6px; }
+  .sub { color:#666; font-size:13px; line-height:1.8; margin-bottom:14px; }
+  .sub kbd { background:#eee; border:1px solid #ccc; border-radius:3px; padding:0 5px; font-size:12px; }
+  #screen { background:#fff; border:1px solid #eee; display:block; }
+  .foot { color:#999; font-size:12px; margin-top:14px; line-height:1.8; }
+</style>
+</head>
+<body>
+<h1>Bomberman · u8g2-js 移植</h1>
+<div class="sub">
+  操作：<kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> / <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> 移动，
+  <kbd>Z</kbd> / <kbd>空格</kbd> 放炸弹，<kbd>X</kbd> 返回。<br>
+  原版：<a href="https://github.com/createskyblue/Bomberman" target="_blank" rel="noopener noreferrer">Bomberman.ino</a>
+  （作者 LHW-HWT，CC BY-NC-SA 教育用途）。128×64 虚拟屏，4 倍放大显示。
+</div>
+<canvas id="screen"></canvas>
+<div class="foot">由 u8g2-js 像素级渲染，纯 JS 移植自 Arduboy2 版本。需 live server 运行。</div>
+<script type="module" src="game.js"></script>
+</body>
+</html>
