@@ -18,7 +18,6 @@
   ],
   "scripts": {
     "test": "node --test",
-    "build:demo": "node tools/build-demo.js",
     "check:demo": "node tools/check-demo.js",
     "check:chinese-fonts": "node tools/check-chinese-fonts.js",
     "fonts:build": "node tools/convert-all-fonts.js",

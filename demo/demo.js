@@ -3,8 +3,8 @@
  *
  * Write U8G2 sketch code in the editor and run it against the pixel-faithful
  * JS port.  Load any font at runtime (dropdown, .bin file, or base64 paste).
- * This file is bundled into demo/demo-standalone.html by tools/build-demo.js
- * so the whole thing also works straight from file://.
+ * Run via a live HTTP server from the project root, then open demo/demo.html
+ * (ES modules load fonts on demand; there is no pre-built single-file build).
  */
 import {
   U8g2, U8g2Font, listPresets,
@@ -287,7 +287,7 @@ function setupUI() {
   rebuildDisplay();
 }
 
-/* expose for the standalone build */
+/* expose for headless checks (tools/check-demo.js) */
 window.u8g2demo = { run, rebuildDisplay, toggleAnim };
 
 document.addEventListener('DOMContentLoaded', setupUI);

@@ -79,26 +79,27 @@ console.log(toPBM(u8g2));   // P4 PBM text
 
 ## Demo
 
-Open `demo/demo-standalone.html` — a self-contained single file that **runs by double-clicking**
-(file://, no server needed).
-
-It's an interactive simulator: pick a display, rotation, zoom, pixel grid, write U8G2 code,
-animate, and **load any font at runtime** (dropdown / `.bin` file / paste base64). The default
-sketch is a **Chinese dashboard** (temperature sensor / humidity / status) demonstrating the
-bundled full Chinese fonts.
-
-There is also a dedicated **Chinese-font test page**, `demo/chinese-fonts-demo.html` (also
-double-clickable, file://): one page renders the classic font-test sentence
-「我能吞下玻璃而不伤身体」in all four built-in full-CJK fonts (**12 / 16 / 24 / 32 px**) on a
-512×512 virtual screen, with the font name appended to the sentence — a quick way to judge every
-Chinese font's rendering at once.
-
-For development, edit `demo/demo.html` (ESM, needs a local server), then rebuild:
+The demos are ES modules and load fonts on demand, so they need a **live HTTP server** — run one
+**from the project root**, then open the page in your browser:
 
 ```bash
-node tools/build-demo.js      # produces demo/demo-standalone.html
-node tools/check-demo.js      # boot self-check (DOM-stub smoke test)
+# from the project root, any of these work:
+npx serve .                # then open http://localhost:3000/demo/demo.html
+python -m http.server      # then open http://localhost:8000/demo/demo.html
+# or in VS Code: right-click demo/demo.html -> "Open with Live Server"
 ```
+
+- **`demo/demo.html`** — the interactive simulator: pick a display, rotation, zoom, pixel grid,
+  write U8G2 code, animate, and **load any font at runtime** (dropdown / `.bin` file / paste
+  base64). The default sketch is a **Chinese dashboard** (temperature / humidity / status)
+  demonstrating the bundled full Chinese fonts.
+- **`demo/chinese-fonts/index.html`** — the **Chinese font family comparison** page: one 720×720
+  virtual screen (pixel 1:1, no scaling) per family, switched with the ← → arrow keys or the tabs.
+  Fonts **load on demand** when you switch families — 18 families (SimSun at all six sizes, every
+  MapleMono-NF-CN weight, SimHei / YaHei / KaiTi / FangSong / Noto Sans SC / DengXian at 12/16/24 px).
+
+There is **no pre-built `-standalone` single-file HTML** — it was dropped to keep the repo small.
+Headless smoke checks: `node tools/check-demo.js` and `node tools/check-chinese-fonts.js`.
 
 ## Bundled full Chinese fonts
 
@@ -279,16 +280,14 @@ u8g2-js/
     setup.js          # display presets + custom displays
     renderer/         # canvas.js (browser) + pbm.js (headless export)
     index.js          # unified entry point
-  demo/               # interactive simulator + chinese-fonts-demo.html (font test page)
+  demo/               # interactive simulator (demo.html) + chinese-fonts/ comparison page
   fonts/              # official font pack: 2174 precompiled JS modules + index.json
   tools/
-    convert-fonts.js  # .c font -> .bin/.js/.json (incl. batch)
+    convert-fonts.js  # .c font -> .bin/.js/.json (incl. batch, default both)
     convert-all-fonts.js # .c font pack -> fonts/*.js + fonts/index.json
-    build-demo.js     # bundles the self-contained demo-standalone.html
-    check-demo.js     # demo boot self-check
-    build-chinese-demo.js # bundles demo/chinese-fonts-demo.html
-    check-chinese-demo.js # chinese-font test page boot self-check
-    fontgen/          # full-CJK font generation (gen_full.py, 12/16/24/32 px)
+    check-demo.js     # demo boot self-check (imports demo.js in Node)
+    check-chinese-fonts.js # chinese-fonts page boot self-check
+    fontgen/          # full-CJK font generation (gen_full.py + gen_families.sh)
     cverify/          # byte-for-byte cross-validation against the real C library
   test/test.js        # Node headless test suite (30 tests)
 ```

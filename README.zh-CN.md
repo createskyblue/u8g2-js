@@ -74,22 +74,24 @@ console.log(toPBM(u8g2));   // 导出 P4 PBM
 
 ## 演示（demo）
 
-打开 `demo/demo-standalone.html` —— 自包含单文件，**直接双击就能跑**（file://，无需服务器）。
-
-里面是一个交互式仿真器：选屏、旋转、缩放、网格、写 U8G2 代码、动画循环、**运行时加载任意字体**
-（下拉 / `.bin` 文件 / 粘贴 base64）。默认示例就是一个**中文仪表盘**（温度传感器 / 湿度 / 状态），
-演示内置的全量中文字库。
-
-另外还有专门的**中文字库测试页** `demo/chinese-fonts-demo.html`（同样双击即开，file://）：
-一页用经典字体测试句**「我能吞下玻璃而不伤身体」**渲染全部 4 个内置全量中文字库（**12 / 16 / 24 / 32 px**），
-512×512 虚拟屏，句末附字体名——一页看全所有中文字号的实际渲染效果。
-
-开发态可改 `demo/demo.html`（ESM，需本地服务器），改完重新打包：
+demo 是 ES Module、字体按需加载，需要**本地 HTTP 服务器**——在**项目根目录**起一个，再在浏览器打开：
 
 ```bash
-node tools/build-demo.js      # 生成 demo/demo-standalone.html
-node tools/check-demo.js      # 启动自检（DOM stub 冒烟测试）
+# 在项目根目录任选其一：
+npx serve .                # 然后打开 http://localhost:3000/demo/demo.html
+python -m http.server      # 然后打开 http://localhost:8000/demo/demo.html
+# 或在 VS Code：右键 demo/demo.html -> "Open with Live Server"
 ```
+
+- **`demo/demo.html`** —— 交互式仿真器：选屏、旋转、缩放、网格、写 U8G2 代码、动画循环、
+  **运行时加载任意字体**（下拉 / `.bin` 文件 / 粘贴 base64）。默认示例是一个**中文仪表盘**
+  （温度传感器 / 湿度 / 状态），演示内置的全量中文字库。
+- **`demo/chinese-fonts/index.html`** —— **中文字体家族对比页**：每个字体家族一块 720×720
+  虚拟屏（像素 1:1、无缩放），**← → 方向键或选项卡**切换；切到某个家族才**按需动态加载**它的字体
+  —— 18 个家族（宋体全 6 档、MapleMono-NF-CN 全部字重、黑体/雅黑/楷体/仿宋/思源黑体/等线各 12/16/24 px）。
+
+**不再提供 `-standalone` 单文件 HTML**（占地太大，已移除）。
+无头自检：`node tools/check-demo.js` 和 `node tools/check-chinese-fonts.js`。
 
 ## 内置中文字库（全量）
 
@@ -262,16 +264,14 @@ u8g2-js/
     setup.js          # 显示屏预设表 + 自定义屏
     renderer/         # canvas.js（浏览器显示） + pbm.js（无头导出）
     index.js          # 统一出口
-  demo/               # 交互式仿真页 + chinese-fonts-demo.html（中文字库测试页）
+  demo/               # 交互式仿真器（demo.html）+ chinese-fonts/ 字体对比页
   fonts/              # 官方字体包：2174 个预编译 JS 模块 + index.json
   tools/
-    convert-fonts.js  # .c 字体 -> .bin/.js/.json（含批量）
+    convert-fonts.js  # .c 字体 -> .bin/.js/.json（含批量，默认两者都出）
     convert-all-fonts.js # 全部 .c 字体 -> fonts/*.js + fonts/index.json
-    build-demo.js     # 打包自包含 demo-standalone.html
-    check-demo.js     # demo 启动自检
-    build-chinese-demo.js # 打包 demo/chinese-fonts-demo.html
-    check-chinese-demo.js # 中文字库测试页启动自检
-    fontgen/          # 全量中文字库生成（gen_full.py，12/16/24/32 px）
+    check-demo.js     # demo 启动自检（Node 直接 import demo.js）
+    check-chinese-fonts.js # chinese-fonts 对比页启动自检
+    fontgen/          # 全量中文字库生成（gen_full.py + gen_families.sh）
     cverify/          # 与原版 C 库逐字节交叉验证
   test/test.js        # Node 无头测试套件（30 项）
 ```
