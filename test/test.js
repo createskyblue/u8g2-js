@@ -19,7 +19,7 @@ import {
 } from '../src/index.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const FONT_DIR = join(HERE, '..', 'demo', 'fonts');
+const FONT_DIR = join(HERE, '..', 'fonts');
 
 async function loadFont(name) {
   return U8g2Font.load(join(FONT_DIR, name));

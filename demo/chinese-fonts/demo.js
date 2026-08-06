@@ -2,7 +2,7 @@
  *
  * 中文字体家族对比页：选项卡（或 ← → 方向键）切换家族，字体**按需动态加载**——
  * 切到某个家族时才 import 它的字体模块（第一次加载后注册进运行时注册表，之后直接复用）。
- * 每个家族一块 1920×1080 虚拟屏（恰好 2 倍整数放大、像素对齐、无 CSS 缩放），
+ * 每个家族一块 720×720 虚拟屏（像素 1:1、禁止任何缩放），
  * 用「我能吞下玻璃而不伤身体」渲染该家族的字号，句末附字体名。
  */
 import { U8g2, U8g2Font } from '../../src/index.js';
@@ -53,7 +53,7 @@ async function loadAndShow(i) {
   try {
     for (const name of fam.fonts) {
       if (!U8g2Font.registered()[name]) {
-        const mod = await import(`../fonts/${name}.js`);
+        const mod = await import(`../../fonts/${name}.js`);
         U8g2Font.register(name, U8g2Font.fromBase64(mod[name]));
       }
     }

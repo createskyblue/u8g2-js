@@ -48,7 +48,7 @@ import { U8g2, U8g2Font } from './u8g2-js/src/index.js';
 const u8g2 = new U8g2({ display: 'ssd1306_128x64_noname_f' });
 
 // 运行时载入字体（字体就是字节数组）
-const font = await U8g2Font.load('./u8g2-js/demo/fonts/u8g2_font_5x7_tf.bin');
+const font = await U8g2Font.load('./u8g2-js/fonts/u8g2_font_5x7_tf.bin');
 u8g2.setFont(font);
 
 // 画图 —— 与 Arduino 写法一致
@@ -67,7 +67,7 @@ Node 端同样可用（无头导出 PBM/原始字节，适合测试）：
 ```js
 import { U8g2, U8g2Font, toPBM } from './u8g2-js/src/index.js';
 const u8g2 = new U8g2({ display: 'ssd1306_128x64_noname_f' });
-u8g2.setFont(await U8g2Font.load('demo/fonts/u8g2_font_5x7_tf.bin'));
+u8g2.setFont(await U8g2Font.load('fonts/u8g2_font_5x7_tf.bin'));
 u8g2.drawStr(0, 10, 'Hello');
 console.log(toPBM(u8g2));   // 导出 P4 PBM
 ```
@@ -95,8 +95,9 @@ python -m http.server      # 然后打开 http://localhost:8000/demo/demo.html
 
 ## 内置中文字库（全量）
 
-demo 内置 **`chinese_full_12` / `chinese_full_16` / `chinese_full_24`** 三个全量中文字库
-（字体源：**SimSun 宋体** `C:\Windows\Fonts\simsun.ttc`），字符集覆盖：
+demo 内置 **`chinese_full_8` / `chinese_full_10` / `chinese_full_12` / `chinese_full_16` /
+`chinese_full_24` / `chinese_full_32`** 六个全量中文字库（字体源：**SimSun 宋体**
+`C:\Windows\Fonts\simsun.ttc`），字符集覆盖：
 
 - **全部 CJK 统一汉字 U+4E00–U+9FFF**（20902 字，含生僻字）+ CJK 扩展 A U+3400–4DBF
 - 全 ASCII 0x20–0x7E + Latin-1（° ± × ÷ · …）
@@ -119,7 +120,7 @@ em 方框（12px→15 高 / 16px→18 高 / 24px→26 高，行高一致、多�
 
 ```bash
 python tools/fontgen/gen_full.py    # 调 Python_u8g2_Fonts_Tools 的 otf2bdf + bdfconv
-node tools/convert-fonts.js tools/fontgen/out/cn16/code/chinese_full.c -o demo/fonts --format bin,js
+node tools/convert-fonts.js tools/fontgen/out/cn16/code/chinese_full.c -o fonts --format bin,js
 ```
 
 > ⚠️ 生成全量字库的 bdfconv 注意：字库工具**旧版捆绑的 bdfconv.exe**（per-entry=100）在约
@@ -161,9 +162,9 @@ u8g2.setFont('my_font');
 任意 U8G2 字体 `.c` 文件（含 **bdfconv 生成的中文字体**，格式相同）都能转：
 
 ```bash
-# 单个：demo/fonts/u8g2_font_5x7_tf.c -> .bin（推荐，直接 fetch/读文件）
+# 单个：fonts/u8g2_font_5x7_tf.c -> .bin（推荐，直接 fetch/读文件）
 node tools/convert-fonts.js ../u8g2/tools/font/build/single_font_files/u8g2_font_5x7_tf.c \
-  -o demo/fonts --format bin
+  -o fonts --format bin
 
 # 输出 .js（base64 模块，import 即用）或 .json
 node tools/convert-fonts.js .../u8g2_font_myfont.c -o myfonts --format js
@@ -172,7 +173,7 @@ node tools/convert-fonts.js .../u8g2_font_myfont.c -o myfonts --format js
 node tools/convert-fonts.js --batch .../single_font_files -o myfonts --format bin
 ```
 
-`demo/fonts/` 里已内置 9 个经典示例字体 + 3 个全量中文字库（均含 .bin + .js）。
+`fonts/` 里已内置 9 个经典示例字体 + 6 个全量中文字库（均含 .bin + .js）。
 
 ### 官方字体包 —— 全部 2174 个 U8G2 字体预编译成 JS
 

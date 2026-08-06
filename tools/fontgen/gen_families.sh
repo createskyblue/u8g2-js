@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# gen_families.sh — 生成全部候选中文字体家族（对比挑选用），输出到 demo/fonts（.bin + .js）
+# gen_families.sh — 生成全部候选中文字体家族（对比挑选用），输出到 fonts/（.bin + .js）
 #
 # 每个家族 × 尺寸 生成一个全量 CJK 字库（-b 1 公共高度，U+4E00-9FFF 全覆盖）。
 # otf2bdf 在中文路径下只能由 bash 直接调用（Python subprocess/os.system 会失败）。
@@ -39,7 +39,7 @@ SIZES="12 16 24"
 for fam in "${!FONTS[@]}"; do
   for size in $SIZES; do
     name="chinese_${fam}_${size}"
-    if [ -f "$REPO/demo/fonts/${name}.bin" ]; then
+    if [ -f "$REPO/fonts/${name}.bin" ]; then
       echo "skip $name (exists)"
       continue
     fi
@@ -49,7 +49,7 @@ for fam in "${!FONTS[@]}"; do
     "$TOOL/otf2bdf.exe" -v -r 72 -p "$size" -o "$dir/font.bdf" "${FONTS[$fam]}" 2>&1 | tail -1
     printf '%s' "$MAP" > "$dir/font.map"
     "$TOOL/bdfconv.exe" -v -b 1 -f 1 "$dir/font.bdf" -M "$dir/font.map" -n "$name" -o "$dir/font.c" -p 100 2>&1 | tail -2
-    node "$REPO/tools/convert-fonts.js" "$dir/font.c" -o "$REPO/demo/fonts"
+    node "$REPO/tools/convert-fonts.js" "$dir/font.c" -o "$REPO/fonts"
   done
 done
-echo "DONE: all families generated -> demo/fonts (bin + js)"
+echo "DONE: all families generated -> fonts/ (bin + js)"

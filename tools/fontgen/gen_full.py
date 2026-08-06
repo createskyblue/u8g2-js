@@ -77,19 +77,19 @@ def main():
 
 
 def convert_to_demo():
-    """把生成的 .c 字库转成 demo/fonts 下的 .bin + .js（JS 一并生成）。
+    """把生成的 .c 字库转成仓库根目录 fonts/ 下的 .bin + .js（JS 一并生成）。
 
     convert-fonts.js 默认输出 bin+js 两种格式，无需额外参数。
     """
     conv = os.path.join(HERE, "..", "convert-fonts.js")
-    demo_fonts = os.path.abspath(os.path.join(HERE, "..", "..", "demo", "fonts"))
-    print("> convert .c -> demo/fonts (.bin + .js)")
+    fonts_dir = os.path.abspath(os.path.join(HERE, "..", "..", "fonts"))
+    print("> convert .c -> fonts/ (.bin + .js)")
     for size in SIZES:
         code = os.path.join(OUT, f"cn{size}", "code", "chinese_full.c")
         if not os.path.exists(code):
             continue
-        subprocess.run(["node", conv, code, "-o", demo_fonts], check=True)
-        print(f"  -> demo/fonts/chinese_full_{size}.bin + .js")
+        subprocess.run(["node", conv, code, "-o", fonts_dir], check=True)
+        print(f"  -> fonts/chinese_full_{size}.bin + .js")
 
 
 if __name__ == "__main__":

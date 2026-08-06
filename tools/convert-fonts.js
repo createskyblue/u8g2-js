@@ -15,8 +15,8 @@
  * without any extra flag.
  *
  * Examples:
- *   node tools/convert-fonts.js ../u8g2/tools/font/build/single_font_files/u8g2_font_5x7_tf.c -o demo/fonts
- *   node tools/convert-fonts.js ../u8g2/tools/font/build/single_font_files/u8g2_font_5x7_tf.c -o demo/fonts --format bin
+ *   node tools/convert-fonts.js ../u8g2/tools/font/build/single_font_files/u8g2_font_5x7_tf.c -o fonts
+ *   node tools/convert-fonts.js ../u8g2/tools/font/build/single_font_files/u8g2_font_5x7_tf.c -o fonts --format bin
  *   node tools/convert-fonts.js --batch ../u8g2/tools/font/build/single_font_files -o my-fonts
  *
  * Output (default bin,js):
@@ -103,10 +103,17 @@ function writeFormats(font, outDir, formats) {
   }
   if (formats.includes('js')) {
     const b64 = bytesToBase64(font.bytes);
+    /* 与 convert-all-fonts.js 保持同一模块格式（具名 + 默认导出） */
     const js =
-`/* Converted from u8g2 font "${name}" (${font.bytes.length} bytes).
-   Load at runtime: U8g2Font.fromBase64(u8g2_font_xxx) or setFont(name). */
-export const ${name} = "${b64}";
+`/* u8g2 font: ${name} (${font.bytes.length} bytes)
+ * Byte-for-byte identical to the device build.
+ * Usage:
+ *   import b64 from 'u8g2-js/fonts/${name}.js';
+ *   const font = U8g2Font.fromBase64(b64);   // or U8g2Font.register('${name}', font)
+ */
+const ${name} = "${b64}";
+export { ${name} };
+export default ${name};
 `;
     writeFileSync(join(outDir, `${name}.js`), js);
   }
