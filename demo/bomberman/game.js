@@ -1,6 +1,6 @@
 /* Bomberman — Arduboy2 game ported to u8g2-js.
  *
- * Original: https://github.com/createskyblue/Bomberman (Bomberman.ino, by LHW-HWT)
+ * Original: https://github.com/createskyblue/Bomberman (Bomberman.ino, by CacheRivulet)
  * License: CC BY-NC-SA (educational use, non-commercial).
  *
  * The Arduboy2 drawing API is mapped onto the u8g2-js pixel-faithful canvas.
@@ -29,10 +29,13 @@ function setColor(c) { u8g2.setDrawColor(c === 1 ? 0 : 1); }
 function fillRect(x, y, w, h, c) { setColor(c); u8g2.drawBox(x, y, w, h); u8g2.setDrawColor(1); }
 function blit(x, y, w, h, bmp, c) {
   setColor(c);
+  /* Arduboy2 drawSlowXYBitmap 原样实现：
+   * 字节索引 = yi*byteWidth + xi/8（行主序），位序 = 128>>(xi&7)（bit7=最左列） */
+  const byteWidth = Math.ceil(w / 8);
   for (let j = 0; j < h; j++) {
     for (let i = 0; i < w; i++) {
-      const byte = bmp[(i >> 3) * h + j];
-      if (byte & (1 << (i & 7))) u8g2.drawPixel(x + i, y + j);
+      const byte = bmp[j * byteWidth + (i >> 3)];
+      if (byte & (128 >> (i & 7))) u8g2.drawPixel(x + i, y + j);
     }
   }
   u8g2.setDrawColor(1);
@@ -57,7 +60,7 @@ let LIFE, LEVEL, KeyBack;
 const MAP = Array.from({ length: 31 }, () => new Array(15).fill(0));
 const monster = Array.from({ length: 10 }, () => [0, 0]);
 const MLRUD = new Array(10).fill(255);
-let PX, PY, PP, PS;
+let PX = 0, PY = 0, PP = 0, PS = 0; /* PS 必须初始化，否则动画帧为 NaN */
 let PMove = false, BMove = true;
 let CSX = 0, CSY = 0;
 const SBDPL = [1, 2, 3];
@@ -66,7 +69,9 @@ let TNTN = 0;
 const TntTime = new Array(10).fill(0);
 let MMTime = 0, PIT = 0, TNTS = 0;
 let PWIN = false;
-const BOOMTime = 3000, MMTimeOut = 100, Invincible_Time = 5000;
+const BOOMTime = 3000, MMTimeOut = 250, Invincible_Time = 5000;
+let PMoveTime = 0, bombTime = 0, boomDecay = 0; /* 移动/放弹/爆炸衰减节流 */
+let PSAnimTime = 0, TNTSTime = 0; /* 玩家行走动画 / TNT 闪烁节流 */
 
 let gameState = 'menu'; /* menu | about | level | play | fail | win */
 let POA = false;
@@ -156,43 +161,49 @@ function logic() {
       else goLevel(LEVEL + 1);
       return;
     }
-    /* player damage */
+    /* player damage（每帧最多扣 1 血，避免站在爆炸上被重复扣血） */
+    let damaged = false;
     for (let i = 0; i < 10; i++) {
       if (MAP[monster[i][0]][monster[i][1]] >= 4 && MLRUD[i] !== 255) MLRUD[i] = 255;
-      if (millis() >= PIT + Invincible_Time) {
+      if (!damaged && millis() >= PIT + Invincible_Time) {
         if ((PX === monster[i][0] && PY === monster[i][1] && MLRUD[i] !== 255) || MAP[PX][PY] >= 4) {
           LIFE--;
           PIT = millis();
+          damaged = true;
         }
       }
     }
-    /* player movement */
-    switch (KeyBack) {
-      case 0:
-        PP = 0; SBDP(PP, PX, PY);
-        if (PY > 1 && BMove) PY--;
-        break;
-      case 1:
-        PP = 2; SBDP(PP, PX, PY);
-        if (PY < 13 && BMove) PY++;
-        break;
-      case 2:
-        PP = 3; SBDP(PP, PX, PY);
-        if (PX > 1 && BMove) PX--;
-        break;
-      case 3:
-        PP = 1; SBDP(PP, PX, PY);
-        if (PX < 29 && BMove) PX++;
-        break;
-      case 4:
-        if (TNTN < 10 && MAP[PX][PY] !== 3) {
-          TNTN++;
-          TntList[TNTN - 1][0] = PX;
-          TntList[TNTN - 1][1] = PY;
-          MAP[PX][PY] = 3;
-          TntTime[TNTN - 1] = millis();
-        }
-        break;
+    /* player movement（160ms 节流，保证可控制） */
+    if (KeyBack <= 3 && millis() >= PMoveTime) {
+      PMoveTime = millis() + 160;
+      switch (KeyBack) {
+        case 0:
+          PP = 0; SBDP(PP, PX, PY);
+          if (PY > 1 && BMove) PY--;
+          break;
+        case 1:
+          PP = 2; SBDP(PP, PX, PY);
+          if (PY < 13 && BMove) PY++;
+          break;
+        case 2:
+          PP = 3; SBDP(PP, PX, PY);
+          if (PX > 1 && BMove) PX--;
+          break;
+        case 3:
+          PP = 1; SBDP(PP, PX, PY);
+          if (PX < 29 && BMove) PX++;
+          break;
+      }
+    }
+    if (KeyBack === 4 && millis() >= bombTime) { /* 放炸弹 300ms 节流 */
+      bombTime = millis() + 300;
+      if (TNTN < 10 && MAP[PX][PY] !== 3) {
+        TNTN++;
+        TntList[TNTN - 1][0] = PX;
+        TntList[TNTN - 1][1] = PY;
+        MAP[PX][PY] = 3;
+        TntTime[TNTN - 1] = millis();
+      }
     }
     /* TNT explosion */
     if (TNTN !== 0 && millis() >= TntTime[0] + BOOMTime) {
@@ -213,13 +224,16 @@ function logic() {
       }
     }
   }
-  /* explosion frame decay (also runs during fail) */
-  for (let y = 0; y < 15; y++)
-    for (let x = 0; x < 31; x++) {
-      if (MAP[x][y] === 4) MAP[x][y] = 5;
-      else if (MAP[x][y] === 5) MAP[x][y] = 6;
-      else if (MAP[x][y] === 6) MAP[x][y] = 0;
-    }
+  /* explosion frame decay (also runs during fail)；120ms 节流让爆炸可见 */
+  if (millis() >= boomDecay) {
+    boomDecay = millis() + 120;
+    for (let y = 0; y < 15; y++)
+      for (let x = 0; x < 31; x++) {
+        if (MAP[x][y] === 4) MAP[x][y] = 5;
+        else if (MAP[x][y] === 5) MAP[x][y] = 6;
+        else if (MAP[x][y] === 6) MAP[x][y] = 0;
+      }
+  }
 }
 
 /* ---------------- drawing ---------------- */
@@ -241,7 +255,7 @@ function DrawMap() {
       }
     }
   }
-  TNTS++; if (TNTS >= 2) TNTS = 0;
+  if (millis() >= TNTSTime) { TNTSTime = millis() + 250; TNTS++; if (TNTS >= 2) TNTS = 0; }
 }
 
 function DrawEntity() {
@@ -249,13 +263,9 @@ function DrawEntity() {
     for (let n = 0; n < 10; n++)
       if (MLRUD[n] !== 255)
         blit(monster[n][0] * 8 - (PX - 15) * 8 - 64 + CSX, monster[n][1] * 8 - (PY - 7) * 8 - 32 + CSY, 8, 8, M_table[MLRUD[n]], 0);
-    if (millis() >= PIT + Invincible_Time) {
-      blit(56, 24, 8, 8, Man_table[PP * 3 + PS], 0);
-    } else if (PS === 0) {
-      blit(56, 24, 8, 8, Man_table[PP * 3 + PS], 0);
-    }
-    if (PMove === true || millis() < PIT + Invincible_Time) {
-      PS++; if (PS > 2) PS = 0;
+    blit(56, 24, 8, 8, Man_table[PP * 3 + PS], 0); /* 玩家始终可见 */
+    if (KeyBack >= 0 && KeyBack <= 3) {
+      if (millis() >= PSAnimTime) { PSAnimTime = millis() + 160; PS++; if (PS > 2) PS = 0; }
     } else PS = 0;
   }
 }
@@ -301,10 +311,10 @@ function aboutFrame() {
   setCursor(0, 0);
   println(' >About');
   println('');
-  println('LHW programming');
-  println('LHW Art');
+  println('CacheRivulet programming');
+  println('CacheRivulet Art');
   println('E-mail');
-  println('1281702594@qq.com');
+  println('createskyblue@outlook.com');
   println('');
   println('Any key back...');
   u8g2.sendBuffer();
@@ -319,7 +329,7 @@ function levelFrame() {
 }
 
 function playFrame() {
-  if (LIFE === 0) { startFail(); return; }
+  if (LIFE <= 0) { startFail(); return; }
   key();
   Draw();
   logic();
@@ -374,4 +384,5 @@ window.__bomberman = {
   release: (k) => keys.delete(k),
   pos: () => [PX, PY],
   life: () => LIFE,
+  u8g2: () => u8g2,
 };

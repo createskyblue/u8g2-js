@@ -2,298 +2,56 @@
 
 🌐 [English](./README.md) · **中文**
 
-把 [U8G2](https://github.com/olikraus/u8g2) 单色图形库**纯 JS 移植**到浏览器 / Node，
-**像素级还原真机渲染**，用于 AI 生成代码 + 浏览器仿真，方便后续基于 U8G2 做小型设备开发。
+**U8G2 单色图形库的纯 JS 移植** —— 在浏览器里像素级仿真单色屏显示，AI 开发并视觉验证后，同一份代码直接部署真机。
 
-- **零构建、零依赖**：原生 ES Module，浏览器 `file://` 直接可用，Node 同样可跑。
-- **像素级还原**：帧缓冲布局、`draw_color` 0/1/2、字体 RLE 位流解码、`draw_l90` 旋转变换、
-  Bresenham 图元 —— 全部与 C 源码 1:1 移植，**已与原版 C 库逐字节交叉验证**（见 [验证](#验证)）。
-- **字体运行时加载**：字体本质就是 `Uint8Array` 字节流，运行时用你自己的 JS 载入，
-  支持任意 U8G2 字体（含 `bdfconv` 生成的中文字体）。
-- **API 兼容**：Arduino `U8g2lib` 风格 camelCase 为主，同时提供 C 风格 snake_case / `u8g2_*` 别名。
+![212x102 墨水屏传感器仪表盘](img/co2-mode.jpg)
 
-## 在线演示
+## U8G2：单色屏的事实标准
 
-一个 212×102 单色墨水屏传感器仪表盘（CO₂ / PM2.5 / 温湿度趋势），基于 u8g2-js 构建——
-在浏览器里对真实墨水屏做像素级仿真：
+OLED、单色点阵液晶屏（12864 那种灰白屏）、墨水屏这类**单色屏**，资源有限，跑不动 LVGL 那种重型 GUI；它们的图形库事实标准是 **U8G2**——支持几十种屏幕控制器、庞大的字体库、内存占用极小。做单色屏显示，基本就是 U8G2。
 
-![u8g2-js 在线演示 —— 212x102 墨水屏 CO2 趋势界面](docs/co2-mode.jpg)
+## 痛点
 
-**在线演示：** [createskyblue.github.io/epaper-sensor-trend-demo](https://createskyblue.github.io/epaper-sensor-trend-demo/) · **源码：** [github.com/createskyblue/epaper-sensor-trend-demo](https://github.com/createskyblue/epaper-sensor-trend-demo)
+U8G2 开发很慢：改一次显示效果，就要重新编译、烧录、上板看，一轮几十秒到几分钟；AI 写的 U8G2 代码经常"能编译过、屏幕不对"，字体、坐标、布局来回调都不对。
 
-该演示把 `u8g2-js` 作为 git 子模块引入，跑的是和真机完全一致的同一套渲染引擎。
+## 本项目：u8g2-js
 
-## 基于的上游版本
+我们把 U8G2 完整移植成纯 JS，在浏览器里**像素级仿真单色屏**。AI（Codex / Claude）在浏览器里完成整个闭环：
 
-本移植对照 **U8G2 上游 master 分支**的基准提交：
+1. **开发** U8G2 显示界面（JavaScript，浏览器原样运行）
+2. **视觉验证**：运行、截图，多模态识图逐像素检查
+3. **用户确认**：效果符合预期，即通过
+4. **部署**：同一份代码上真机（与原生 U8G2 C 库 API 一致）
 
-```
-commit ab9e48b2228351e9476682a70b7f3ee4909cd585
-Date:   2026-06-27 16:10:31 +0200
-Subject: Merge pull request #2786 from iggymayer/fix-flipmode-ssd1362z-OEL1M0033WE
-```
+显示逻辑**在浏览器里提前验证**，而不是上板后才发现问题。
 
-原版 C 库已浅克隆到本仓库旁边的 `u8g2/` 目录（仅此提交），
-`tools/cverify/build.sh` 的**逐字节交叉验证正是针对这一版 C 库**进行的。
-要升级基准版本：重新 `git clone https://github.com/olikraus/u8g2.git` 到最新 master，
-并重跑 `bash tools/cverify/build.sh` 确认一致性后即可。
+**仓库：** [github.com/createskyblue/u8g2-js](https://github.com/createskyblue/u8g2-js)
+
+**在线演示：** [createskyblue.github.io/u8g2-js](https://createskyblue.github.io/u8g2-js/)
+
+## 为什么同一份代码能上真机
+
+- **像素级还原**：拿同一个官方 Demo，用 gcc 编译的 C 版跑一遍、导出屏幕像素图，JS 版再跑一遍、导出屏幕像素图，**两张图逐像素对比，差异 = 0**。帧缓冲、字体、`draw_color`、旋转——浏览器里看到什么，真机就是什么
+- **字体即字节数组**：运行时加载任意 U8G2 字体；内置全量中文字库（宋体 8/10/12/16/24/32 px）
+- **零依赖纯 ESM**：浏览器 / Node 直接跑
+- 完整游戏也能跑，如《炸弹人》，真机同款 128×64 渲染：
+
+![Bomberman 游戏运行在 u8g2-js 上](img/Bomberman.jpg)
 
 ## 快速开始
 
 ```js
-// 浏览器：<script type="module">
-import { U8g2, U8g2Font } from './u8g2-js/src/index.js';
+import { U8g2, U8g2Font } from './src/index.js';
 
-// 建一块 SSD1306 128x64 屏
 const u8g2 = new U8g2({ display: 'ssd1306_128x64_noname_f' });
-
-// 运行时载入字体（字体就是字节数组）
-const font = await U8g2Font.load('./u8g2-js/fonts/u8g2_font_5x7_tf.bin');
-u8g2.setFont(font);
-
-// 画图 —— 与 Arduino 写法一致
-u8g2.clearBuffer();
+u8g2.setFont(U8g2Font.fromBase64('AP//AA...')); // 字体就是字节数组
 u8g2.drawStr(0, 10, 'Hello');
-u8g2.drawBox(0, 20, 10, 5);
-u8g2.drawCircle(60, 30, 8, 15);
 u8g2.sendBuffer();
-
-// 挂到 <canvas> 上显示
 u8g2.attachCanvas(document.getElementById('screen'));
 ```
 
-Node 端同样可用（无头导出 PBM/原始字节，适合测试）：
-
-```js
-import { U8g2, U8g2Font, toPBM } from './u8g2-js/src/index.js';
-const u8g2 = new U8g2({ display: 'ssd1306_128x64_noname_f' });
-u8g2.setFont(await U8g2Font.load('fonts/u8g2_font_5x7_tf.bin'));
-u8g2.drawStr(0, 10, 'Hello');
-console.log(toPBM(u8g2));   // 导出 P4 PBM
-```
-
-## 演示（demo）
-
-demo 是 ES Module、字体按需加载，需要**本地 HTTP 服务器**——在**项目根目录**起一个，再在浏览器打开：
-
-```bash
-# 在项目根目录任选其一：
-npx serve .                # 然后打开 http://localhost:3000/demo/demo.html
-python -m http.server      # 然后打开 http://localhost:8000/demo/demo.html
-# 或在 VS Code：右键 demo/demo.html -> "Open with Live Server"
-```
-
-从项目根目录的 **[`index.html`](./index.html)** 进入示例导航，包含三个示例：
-
-- **`demo/demo.html`** —— 交互式仿真器：选屏、旋转、缩放、网格、写 U8G2 代码、动画循环、
-  **运行时加载任意字体**（下拉 / `.bin` 文件 / 粘贴 base64）。默认示例是一个**中文仪表盘**
-  （温度传感器 / 湿度 / 状态），演示内置的全量中文字库。
-- **`demo/chinese-fonts/index.html`** —— **中文字体家族对比页**：每个字体家族一块 720×720
-  虚拟屏（像素 1:1、无缩放），**← → 方向键或选项卡**切换；切到某个家族才**按需动态加载**它的字体
-  —— 18 个家族（宋体全 6 档、MapleMono-NF-CN 全部字重、黑体/雅黑/楷体/仿宋/思源黑体/等线各 12/16/24 px）。
-- **`demo/siji-icons/index.html`** —— **图标库浏览**：u8g2 图标字体网格渲染
-  （[Siji](https://github.com/stark/siji) 图标库 PUA 区 + open_iconic 系列）。
-- **`demo/bomberman/index.html`** —— **《炸弹人》游戏**：Arduboy2 版
-  （[Bomberman.ino](https://github.com/createskyblue/Bomberman) 作者 LHW-HWT，CC BY-NC-SA）纯 JS 移植，
-  128×64 像素游戏，方向键移动、放炸弹炸墙炸怪。
-
-**不再提供 `-standalone` 单文件 HTML**（占地太大，已移除）。
-无头自检：`node tools/check-demo.js` 和 `node tools/check-chinese-fonts.js`。
-
-## 内置中文字库（全量）
-
-demo 内置 **`chinese_full_8` / `chinese_full_10` / `chinese_full_12` / `chinese_full_16` /
-`chinese_full_24` / `chinese_full_32`** 六个全量中文字库（字体源：**SimSun 宋体**
-`C:\Windows\Fonts\simsun.ttc`），字符集覆盖：
-
-- **全部 CJK 统一汉字 U+4E00–U+9FFF**（20902 字，含生僻字）+ CJK 扩展 A U+3400–4DBF
-- 全 ASCII 0x20–0x7E + Latin-1（° ± × ÷ · …）
-- 中文标点、℃ ℉ 等符号、全角形式、CJK 兼容形式
-
-共 **~2.8 万字形**，模拟器里 AI 生成/写出的任意中文都能渲染。
-
-**垂直对齐说明**：字体用 bdfconv **公共高度模式 `-b 1`** 生成，所有字形共享统一的
-em 方框（12px→15 高 / 16px→18 高 / 24px→26 高，行高一致、多行对齐正确）。
-改用 **SimSun 宋体**后，**CJK 字形统一坐基线**（底部对齐基线、顶部一致），不再有 MapleMono
-那种"度"笔画探出基线、字浮动的问题。每个字形内部的**墨迹高低仍然不同**
-（如"一"是短横、位于框中下部）——这是位图字体的正常行为，U8G2 官方 CJK 字体一致。
-另外 map 中**排除了 U+3031/3032（〱〲 竖排重复记号）**，它们的 BBox 高达 30px，
-会把公共高度/行高错误地顶高。
-
-备选字体：`NotoSansSC-VF.ttf`（OFL 开源，但 VF 默认字重偏细）、`MapleMono`（原用，CJK 基线不齐）。
-改 `gen_full.py` 里的 `FONT` 路径即可换源。
-
-这三个字体由 `tools/fontgen/gen_full.py` 生成：
-
-```bash
-python tools/fontgen/gen_full.py    # 调 Python_u8g2_Fonts_Tools 的 otf2bdf + bdfconv
-node tools/convert-fonts.js tools/fontgen/out/cn16/code/chinese_full.c -o fonts --format bin,js
-```
-
-> ⚠️ 生成全量字库的 bdfconv 注意：字库工具**旧版捆绑的 bdfconv.exe**（per-entry=100）在约
-> 2 万 Unicode 字形时会断言失败；已把工具的 `bdfconv.exe` 换成 **olikraus/u8g2 当前源码的构建**
-> （per-entry=101，无此问题）。生成结果经原版 C 库逐字节验证一致。
-
-字库生成工具（otf2bdf + bdfconv + 中文提取，本项目字体由它生成）：
-[Easy-u8g2-font-generate-tools](https://github.com/createskyblue/Easy-u8g2-font-generate-tools)
-
-## 字体：运行时动态加载
-
-字体就是与真机一致的字节流（U8G2 "new font format"）。四种载入方式：
-
-```js
-// 1) 从转换工具产物（base64）
-U8g2Font.fromBase64("AP//AA...")
-
-// 2) 直接贴 .c 源文件里的 C 字符串（八进制转义）
-U8g2Font.fromC("\\277\\0\\2\\2\\3\\3...")
-
-// 3) 就是数组
-U8g2Font.fromArray(new Uint8Array([...]))
-
-// 4) 远程 / 本地文件
-await U8g2Font.load("/fonts/u8g2_font_5x7_tf.bin")   // 浏览器 fetch / Node 读文件
-```
-
-注册进运行时注册表后可 `setFont(名字)`：
-
-```js
-U8g2Font.register('my_font', fontData);   // fontData 可以是 U8g2Font / Uint8Array / base64
-u8g2.setFont('my_font');
-```
-
-`setFont()` 也直接接受 `U8g2Font` 实例、`Uint8Array` 或 base64 字符串，随你方便。
-
-### 转换自己的字体
-
-任意 U8G2 字体 `.c` 文件（含 **bdfconv 生成的中文字体**，格式相同）都能转：
-
-```bash
-# 单个：fonts/u8g2_font_5x7_tf.c -> .bin（推荐，直接 fetch/读文件）
-node tools/convert-fonts.js ../u8g2/tools/font/build/single_font_files/u8g2_font_5x7_tf.c \
-  -o fonts --format bin
-
-# 输出 .js（base64 模块，import 即用）或 .json
-node tools/convert-fonts.js .../u8g2_font_myfont.c -o myfonts --format js
-
-# 批量转一整个目录
-node tools/convert-fonts.js --batch .../single_font_files -o myfonts --format bin
-```
-
-`fonts/` 里已内置 9 个经典示例字体 + 6 个全量中文字库（均含 .bin + .js）。
-
-### 官方字体包 —— 全部 2174 个 U8G2 字体预编译成 JS
-
-**官方 U8G2 全部字体**已预编译成可直接 import 的 JS 模块，放在 `fonts/` 下
-（一个字体一个文件：`u8g2_font_5x7_tf.js`、`u8x8_font_8x16_1x2_f.js` …）。
-数据**逐字节取自 C 数组**，与真机编译到设备里的字体字节完全一致
-（已用 `gcc` 编译出的参考数组逐字节对拍验证；每个字体的长度也按 `.c` 头里声明的 `[N]` 校验过）。
-
-```js
-import b64 from 'u8g2-js/fonts/u8g2_font_10x20_tf.js';
-
-const font = U8g2Font.fromBase64(b64);            // -> U8g2Font
-U8g2Font.register('u8g2_font_10x20_tf', font);    // 然后 setFont('u8g2_font_10x20_tf')
-```
-
-每个模块都是自包含的小 ESM，只导出一个 base64 字符串——不想一次全打进来的话，
-可以按需 import，交给打包器 tree-shake。
-
-`fonts/index.json` 是所有 2174 个字体的轻量清单：`{ name, file, size, glyphs }`，
-适合用来搭字体选择器（比如仿真器里的下拉列表），不用把字体数据本身全加载进来。
-
-从上游 C 源重新生成 / 刷新这个包：
-
-```bash
-node tools/convert-all-fonts.js            # 读 ../u8g2/tools/font/build/single_font_files
-                                           # 生成 fonts/*.js + fonts/index.json
-```
-
-## 显示设备
-
-`setup.js` 里注册了 ~30 种常见屏（参数取自 u8x8_d_*.c 的 display_info）：
-
-| 控制器 | 型号 |
-|---|---|
-| SSD1306 | 128x64 / 128x32 / 96x16 / 64x32 / 72x40 |
-| SH1106 | 128x64 / 72x40 / 64x32 |
-| SSD1305 / 1309 / 1315 / 1316 / 1325 | 128x32 / 128x64 / 128x128 / 96x32 … |
-| ST7920（横向字节布局）| 128x64 / 256x32 / 144x32 / 160x32 / 192x32 |
-| UC1701 / ST7565 | 102x64 / 128x64 / 132x32 |
-| 墨水屏 | SSD1606 172x72 / SSD1607 200x200 / IL3820 296x128 |
-
-任意尺寸自定义屏（含 **250×122 IL3829 这类**，树里没有的型号）：
-
-```js
-new U8g2({ width: 250, height: 122, layout: 'vertical', xOffset: 0 });
-```
-
-`listPresets()` 列出全部预设名。
-
-## API
-
-主 API 与 Arduino `U8g2` 类一致（`drawStr` / `setFont` / `sendBuffer` …），
-同时提供 C 风格别名（`u8g2_draw_str` / `u8g2_DrawStr` / `draw_str`），代码可平移到真机。
-
-**生命周期/页缓冲**：`begin` `clearBuffer` `sendBuffer` `firstPage` `nextPage` `clearDisplay`
-`clear` `setAutoPageClear` `getBufferPtr/Size/TileWidth/TileHeight` `updateDisplay` `updateDisplayArea`
-
-**颜色**：`setDrawColor`(0/1/2) `getDrawColor` `setBitmapMode`
-
-**图元**：`drawPixel` `drawLine` `drawHLine` `drawVLine` `drawHVLine` `drawBox` `drawFrame`
-`drawRBox` `drawRFrame` `drawCircle` `drawDisc` `drawEllipse` `drawFilledEllipse` `drawArc`
-`drawTriangle` `clearPolygonXY/addPolygonXY/drawPolygon` `drawXBM` `drawXBMP` `drawBitmap`
-
-**文本/字体**：`setFont` `setFontMode` `setFontDirection` `setFontPosBaseline|Top|Bottom|Center`
-`setFontRefHeightText|ExtendedText|All` `drawStr` `drawStrX2` `drawUTF8` `drawUTF8X2`
-`drawGlyph` `drawGlyphX2` `drawExtendedUTF8` `drawExtUTF8`(字距) `drawHB`
-`getStrWidth` `getUTF8Width` `getGlyphWidth` `getXOffsetGlyph|UTF8` `getStrX`
-`isGlyph` `isAllValidUTF8` `getAscent` `getDescent` `getMaxCharWidth|Height` `getFontBBX*`
-
-**裁剪/窗口**：`setClipWindow` `setMaxClipWindow` `isIntersection` `getClipWindow`
-
-**杂项**：`setDisplayRotation`(R0-R3) `setFlipMode` `setContrast` `setPowerSave`
-`drawButtonFrame` `drawButtonUTF8` `setCursor` `home` `print` `println` `sleepOn|Off`
-`getDisplayWidth|Height` `getWidth|Height`
-
-**不做**（如实标注）：`drawLinePattern/Gradient`（本版本 U8G2 已移除）、
-u8x8 底层 I2C/SPI 协议字节流（浏览器仿真无需）、8x8 文本屏、`drawLog/U8G2LOG`。
-
-## 目录结构
-
-```
-u8g2-js/
-  src/
-    u8g2.js           # U8g2 主类：生命周期/页缓冲/文本/裁剪/旋转
-    draw.js           # 图元：box/line/circle/ellipse/arc/triangle/xbm/button
-    hvline.js         # 底层像素写入（vertical_top_lsb / horizontal_right_lsb）
-    font.js           # U8g2Font：头解析/字形查找/RLE 位流解码
-    utf8.js           # UTF-8 解码（u8x8_utf8_next 移植）
-    setup.js          # 显示屏预设表 + 自定义屏
-    renderer/         # canvas.js（浏览器显示） + pbm.js（无头导出）
-    index.js          # 统一出口
-  demo/               # 交互式仿真器（demo.html）+ chinese-fonts/ 字体对比页
-  fonts/              # 官方字体包：2174 个预编译 JS 模块 + index.json
-  tools/
-    convert-fonts.js  # .c 字体 -> .bin/.js/.json（含批量，默认两者都出）
-    convert-all-fonts.js # 全部 .c 字体 -> fonts/*.js + fonts/index.json
-    check-demo.js     # demo 启动自检（Node 直接 import demo.js）
-    check-chinese-fonts.js # chinese-fonts 对比页启动自检
-    fontgen/          # 全量中文字库生成（gen_full.py + gen_families.sh）
-    cverify/          # 与原版 C 库逐字节交叉验证
-  test/test.js        # Node 无头测试套件（30 项）
-```
-
-## 验证
-
-1. **与原版 C 库逐字节交叉验证**（`tools/cverify/build.sh`，需 gcc）：
-   编译真 U8G2 C 库渲染 18 项场景/检查（文本/图形/旋转/裁剪/XOR/按钮/Unicode/**全量中文字库渲染**、
-   字体数据一致），与 JS 移植逐字节比对 —— **全部一致**。
-2. **Node 无头测试**：`node --test`，30 项全过。
-3. **Demo 自检**：`node tools/check-demo.js`。
+在项目根目录起 live server（`npx serve .`）→ 打开 `index.html` 进入各示例。
 
 ## License
 
-BSD-2-Clause。本库是 U8G2 的 JS 移植（含转换后的字体数据），保留原作者版权声明。
-
-参考：原始 C 库已克隆到相邻目录 `u8g2/`，可对照阅读。
+BSD-2-Clause，保留原 U8G2 版权声明。
