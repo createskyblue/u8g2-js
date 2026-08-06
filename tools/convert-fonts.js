@@ -10,11 +10,16 @@
  *   node tools/convert-fonts.js <font.c> [-o outDir] [--format js|bin|json] [--name NAME]
  *   node tools/convert-fonts.js --batch <dir> [-o outDir] [--format js|bin|json]
  *
- * Examples:
- *   node tools/convert-fonts.js ../u8g2/tools/font/build/single_font_files/u8g2_font_5x7_tf.c -o demo/fonts --format bin
- *   node tools/convert-fonts.js --batch ../u8g2/tools/font/build/single_font_files -o my-fonts --format bin
+ * Default --format is "bin,js": every conversion writes both the raw bytes
+ * (.bin) and the import-ready base64 module (.js), so the JS comes out together
+ * without any extra flag.
  *
- * Output:
+ * Examples:
+ *   node tools/convert-fonts.js ../u8g2/tools/font/build/single_font_files/u8g2_font_5x7_tf.c -o demo/fonts
+ *   node tools/convert-fonts.js ../u8g2/tools/font/build/single_font_files/u8g2_font_5x7_tf.c -o demo/fonts --format bin
+ *   node tools/convert-fonts.js --batch ../u8g2/tools/font/build/single_font_files -o my-fonts
+ *
+ * Output (default bin,js):
  *   --format js   : <name>.js  -> `export const <name> = "<base64>";`
  *   --format bin  : <name>.bin -> raw font bytes (fetch -> Uint8Array)
  *   --format json : <name>.json -> { name, size, base64 }
@@ -119,11 +124,13 @@ convert-fonts.js — convert U8G2 .c font files to loadable data
 
   node tools/convert-fonts.js <font.c> [-o outDir] [--format js|bin|json]
   node tools/convert-fonts.js --batch <dir> [-o outDir] [--format js|bin|json]
+
+Default --format is "bin,js" (raw bytes + import-ready JS module, generated together).
 `);
 }
 
 function parseArgs(argv) {
-  const args = { formats: ['bin'], outDir: '.' };
+  const args = { formats: ['bin', 'js'], outDir: '.' };
   const positional = [];
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];

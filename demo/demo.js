@@ -20,6 +20,8 @@ import { u8g2_font_8x13_tf } from './fonts/u8g2_font_8x13_tf.js';
 import { u8g2_font_10x20_tf } from './fonts/u8g2_font_10x20_tf.js';
 import { u8g2_font_open_iconic_weather_1x_t } from './fonts/u8g2_font_open_iconic_weather_1x_t.js';
 import { u8g2_font_unifont_t_symbols } from './fonts/u8g2_font_unifont_t_symbols.js';
+import { chinese_full_8 } from './fonts/chinese_full_8.js';
+import { chinese_full_10 } from './fonts/chinese_full_10.js';
 import { chinese_full_12 } from './fonts/chinese_full_12.js';
 import { chinese_full_16 } from './fonts/chinese_full_16.js';
 import { chinese_full_24 } from './fonts/chinese_full_24.js';
@@ -36,6 +38,8 @@ const FONTS = {
   u8g2_font_open_iconic_weather_1x_t,
   u8g2_font_unifont_t_symbols,
   /* 全量中文字库（U+4E00-9FFF + ASCII + 标点，21158 字形） */
+  chinese_full_8,
+  chinese_full_10,
   chinese_full_12,
   chinese_full_16,
   chinese_full_24,

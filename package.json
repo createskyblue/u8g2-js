@@ -19,9 +19,8 @@
   "scripts": {
     "test": "node --test",
     "build:demo": "node tools/build-demo.js",
-    "build:chinese-demo": "node tools/build-chinese-demo.js",
     "check:demo": "node tools/check-demo.js",
-    "check:chinese-demo": "node tools/check-chinese-demo.js",
+    "check:chinese-fonts": "node tools/check-chinese-fonts.js",
     "fonts:build": "node tools/convert-all-fonts.js",
     "fonts:verify": "node tools/verify-font-pack.mjs",
     "cverify": "bash tools/cverify/build.sh"

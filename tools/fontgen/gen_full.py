@@ -35,7 +35,7 @@ FULL_MAP = (
     "~$3031, ~$3032, $3400-$4DBF, $4E00-$9FFF, $FE30-$FE4F, $FF00-$FFEF"
 )
 
-SIZES = [12, 16, 24, 32]
+SIZES = [8, 10, 12, 16, 24, 32]
 
 
 def main():
@@ -71,7 +71,25 @@ def main():
             check=True,
         )
         print(f"  -> {code}")
+
+    convert_to_demo()
     print("done")
+
+
+def convert_to_demo():
+    """把生成的 .c 字库转成 demo/fonts 下的 .bin + .js（JS 一并生成）。
+
+    convert-fonts.js 默认输出 bin+js 两种格式，无需额外参数。
+    """
+    conv = os.path.join(HERE, "..", "convert-fonts.js")
+    demo_fonts = os.path.abspath(os.path.join(HERE, "..", "..", "demo", "fonts"))
+    print("> convert .c -> demo/fonts (.bin + .js)")
+    for size in SIZES:
+        code = os.path.join(OUT, f"cn{size}", "code", "chinese_full.c")
+        if not os.path.exists(code):
+            continue
+        subprocess.run(["node", conv, code, "-o", demo_fonts], check=True)
+        print(f"  -> demo/fonts/chinese_full_{size}.bin + .js")
 
 
 if __name__ == "__main__":
