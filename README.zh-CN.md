@@ -83,6 +83,8 @@ python -m http.server      # 然后打开 http://localhost:8000/demo/demo.html
 # 或在 VS Code：右键 demo/demo.html -> "Open with Live Server"
 ```
 
+从项目根目录的 **[`index.html`](./index.html)** 进入示例导航，包含三个示例：
+
 - **`demo/demo.html`** —— 交互式仿真器：选屏、旋转、缩放、网格、写 U8G2 代码、动画循环、
   **运行时加载任意字体**（下拉 / `.bin` 文件 / 粘贴 base64）。默认示例是一个**中文仪表盘**
   （温度传感器 / 湿度 / 状态），演示内置的全量中文字库。

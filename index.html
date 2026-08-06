@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>u8g2-js · 示例导航</title>
+<style>
+  body { font-family: system-ui, "PingFang SC", "Microsoft YaHei", sans-serif; background:#f2f3f5; color:#222; max-width:960px; margin:0 auto; padding:40px 20px 60px; }
+  h1 { font-size:24px; margin:0 0 6px; }
+  .sub { color:#666; font-size:14px; line-height:1.7; margin-bottom:28px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:16px; }
+  .card { display:block; background:#fff; border:1px solid #ddd; border-radius:12px; padding:18px 20px; text-decoration:none; color:inherit; box-shadow:0 1px 3px rgba(0,0,0,.05); transition:border-color .15s, box-shadow .15s; }
+  .card:hover { border-color:#1a73e8; box-shadow:0 3px 10px rgba(26,115,232,.12); }
+  .card h2 { font-size:16px; margin:0 0 8px; }
+  .card p { font-size:13px; color:#555; line-height:1.7; margin:0; }
+  .tag { display:inline-block; font-size:11px; color:#fff; background:#1a73e8; border-radius:4px; padding:1px 8px; margin-left:8px; vertical-align:middle; }
+  .tag.ext { background:#e8710a; }
+  .foot { color:#999; font-size:12px; margin-top:28px; line-height:1.8; }
+  .foot code { background:#eee; border-radius:3px; padding:1px 5px; }
+</style>
+</head>
+<body>
+<h1>u8g2-js · 示例导航</h1>
+<div class="sub">U8G2 单色图形库的纯 JS 移植，浏览器像素级仿真。内部示例为 ES Module、字体按需加载，
+需在<b>项目根目录</b>起一个 live server 后打开本页（见下方说明）。</div>
+
+<div class="cards">
+  <a class="card" href="demo/demo.html">
+    <h2>🖥️ 交互式仿真器<span class="tag">内部</span></h2>
+    <p>选屏、旋转、缩放、写 U8G2 代码实时预览，运行时加载任意字体（含全量中文字库）。</p>
+  </a>
+  <a class="card" href="demo/chinese-fonts/index.html">
+    <h2>🇨🇳 中文字体家族对比<span class="tag">内部</span></h2>
+    <p>18 个字体家族，← → 方向键或选项卡切换，字体按需动态加载，720×720 像素级渲染。</p>
+  </a>
+  <a class="card" href="https://createskyblue.github.io/epaper-sensor-trend-demo/" target="_blank" rel="noopener noreferrer">
+    <h2>📈 墨水屏传感器趋势图<span class="tag ext">外部</span></h2>
+    <p>212×102 墨水屏 CO₂ / PM2.5 / 温湿度趋势仪表盘，在线演示（外部站点）。</p>
+  </a>
+</div>
+
+<div class="foot">
+内部示例需要本地 HTTP 服务器，在项目根目录任选其一后重新打开本页：
+<br><code>npx serve .</code>　或　<code>python -m http.server</code>　或　VS Code 右键 <code>index.html</code> → Open with Live Server
+</div>
+</body>
+</html>

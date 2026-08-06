@@ -89,6 +89,8 @@ python -m http.server      # then open http://localhost:8000/demo/demo.html
 # or in VS Code: right-click demo/demo.html -> "Open with Live Server"
 ```
 
+Start from the **root [`index.html`](./index.html)** — a navigation hub for all three demos:
+
 - **`demo/demo.html`** — the interactive simulator: pick a display, rotation, zoom, pixel grid,
   write U8G2 code, animate, and **load any font at runtime** (dropdown / `.bin` file / paste
   base64). The default sketch is a **Chinese dashboard** (temperature / humidity / status)
